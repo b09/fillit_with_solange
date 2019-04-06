@@ -1,4 +1,5 @@
+.gitignore
 libft/*.o
 libft/libft.a
-.gitignore
 main_sandbox
+./a.out

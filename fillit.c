@@ -10,10 +10,9 @@ void	remove_excess_dots(char **ary, int lowbound, int highbound)
 	count = 0;
 	while (count < 4)
 	{
-		printf("string starting: %s\n", ary[0]);
+		ary[0][highbound + 1] = 0;
 		ft_memmove(&ary[0][0], &ary[0][lowbound], ft_strlen(ary[0]));
-		// ary[0][highbound + 1] = '*';
-		printf("string moved to: %s\n", ary[0]);
+		printf("lowbound: %d highbound: %d string: %s\n", lowbound, highbound, ary[0]);
 		++ary;
 		++count;
 	}
@@ -38,7 +37,42 @@ int		lnchk(char *str)
 	return (cnt);
 }
 
-void	change_to_letter(char **ary, int lines)
+
+
+
+void 	remove_excess_dots_two(char **ary, int lines)
+{
+	int		lowbound;
+	int		highbound;
+	int		i;
+
+	lowbound = 4;
+	highbound = 0;
+	while (lines > 0)
+	{
+		i = 0;
+		while (i < 4)
+		{
+			if ((ary[-lines][i] != '.') && (ary[-lines][i] != 0))
+			{
+				lowbound = (i < lowbound) ? i : lowbound;
+				highbound = (i > highbound) ? i : highbound;
+			}
+			++i;
+		}
+		if (!(lines % 5))
+		{
+			remove_excess_dots(&ary[-(lines + 4)], lowbound, highbound);
+			lowbound = 4;
+			highbound = 0;
+		}
+		if (lines == 1)
+			remove_excess_dots(&ary[-4], lowbound, highbound);
+		--lines;
+	}
+}
+
+void	change_to_letter(char **ary, int lines, int lines2)
 {
 	int		index;
 	char	letter;
@@ -47,31 +81,48 @@ void	change_to_letter(char **ary, int lines)
 
 	index = 0;
 	letter = 'A';
-	lowbound = 4;
-	highbound = 0;
+	lowbound = 14;
+	highbound = -10;
 	while (lines > 0) // (lines > 0) this does not cause segfault but does not reach last tetrimino
 	{
+		// printf("char before 'ho':%c\n", ary[0][(index % 4)]);
 		if ((ary[0][(index % 4)]) == '#')
 		{
 			ary[0][(index % 4)] = letter;
 			lowbound = ((index % 4) < lowbound) ? (index % 4) : lowbound;
 			highbound = ((index % 4) > highbound) ? (index % 4) : highbound;
+			printf("line:%d lowbound:%d highbound:%d \n", index / 4, lowbound, highbound);
 		}
-		// printf("loop count: %d lowbound: %d highbound: %d index: %d string: %s \n", loops, lowbound, highbound, 1 +(index / 4), ary[-4]);
-		printf("lines: %d loop count: %d lowbound: %d highbound: %d index: %d  string: %s --- \n",lines,  index, lowbound, highbound, (index % 4), ary[0]);
+
+		// printf("hey\n");
+		// printf("loop count: %d lowbound: %d highbound: %d index: %d string: %s \n", lines, lowbound, highbound, 1 +(index / 4), ary[-4]);
 		if (!((index) % 20) && (index > 1))
 		{
-			remove_excess_dots(&ary[-4], lowbound, highbound);
+			printf("lines: %d loop count: %d lowbound: %d highbound: %d index: %d  string: %s ---\n",lines,  index, lowbound, highbound, (index % 4), ary[-5]);
+			remove_excess_dots(&ary[-5], lowbound, highbound);
+			lowbound = 14;
+			highbound = -10;
 		}
+
+
+
+		// INDEX NOW INCREASED
 		++index;
 		ary = (index % 4) ? ary : (ary + 1);
 		lines = (index % 4) ? lines : (lines - 1);
 		letter = (index % 20) ? letter : (letter + 1);
-		lowbound = (((index - 1) % 20) && (index > 1)) ? lowbound : 4;
-		highbound = (((index - 1) % 20) && (index > 1)) ? highbound: 0;
-		// printf("loop count: %d lowbound: %d highbound: %d index: %d\n", index, lowbound, highbound, 1 +(index / 4));
+		// printf("lowbound will equal 4 when the following number is 0: %d\n", ((index - 1) % 20));
 	}
+	// remove_excess_dots_two(ary, lines2);
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -127,7 +178,7 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 		y = ((y < 3) || (ft_strlen(*ary) < 4)) ? (y + 1) : 0;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
 	}
-	change_to_letter((ary - lin + 1), lin);
+	change_to_letter((ary - lin + 1), lin, lin);
 	return (1);
 }
 
