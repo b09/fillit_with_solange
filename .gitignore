@@ -3,3 +3,6 @@ libft/*.o
 libft/libft.a
 main_sandbox
 a.out
+Fillit_test.c
+solve.c
+a.out.*
