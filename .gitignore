@@ -2,4 +2,4 @@
 libft/*.o
 libft/libft.a
 main_sandbox
-./a.out
+a.out

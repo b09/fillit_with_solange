@@ -12,7 +12,6 @@ void	remove_excess_dots(char **ary, int lowbound, int highbound)
 	{
 		ary[0][highbound + 1] = 0;
 		ft_memmove(&ary[0][0], &ary[0][lowbound], ft_strlen(ary[0]));
-		printf("lowbound: %d highbound: %d string: %s\n", lowbound, highbound, ary[0]);
 		++ary;
 		++count;
 	}
@@ -72,6 +71,51 @@ void 	remove_excess_dots_two(char **ary, int lines)
 	}
 }
 
+// void	change_to_letter(char **ary, int lines, int lines2)
+// {
+// 	int		index;
+// 	char	letter;
+// 	int		lowbound;
+// 	int		highbound;
+
+// 	index = 0;
+// 	letter = 'A';
+// 	lowbound = 14;
+// 	highbound = -10;
+// 	while (lines > 0)
+// 	{
+// 		// printf("char before 'ho':%c\n", ary[0][(index % 4)]);
+// 		if ((ary[0][(index % 4)]) == '#')
+// 		{
+// 			ary[0][(index % 4)] = letter;
+// 			lowbound = ((index % 4) < lowbound) ? (index % 4) : lowbound;
+// 			highbound = ((index % 4) > highbound) ? (index % 4) : highbound;
+// 			printf("line:%d lowbound:%d highbound:%d \n", index / 4, lowbound, highbound);
+// 		}
+
+// 		// printf("hey\n");
+// 		// printf("loop count: %d lowbound: %d highbound: %d index: %d string: %s \n", lines, lowbound, highbound, 1 +(index / 4), ary[-4]);
+// 		if (!((index) % 20) && (index > 1))
+// 		{
+// 			printf("lines: %d loop count: %d lowbound: %d highbound: %d index: %d  string: %s ---\n",lines,  index, lowbound, highbound, (index % 4), ary[-5]);
+// 			remove_excess_dots(&ary[-5], lowbound, highbound);
+// 			lowbound = 14;
+// 			highbound = -10;
+// 		}
+
+
+
+// 		// INDEX NOW INCREASED
+// 		++index;
+// 		ary = (index % 4) ? ary : (ary + 1);
+// 		lines = (index % 4) ? lines : (lines - 1);
+// 		letter = (index % 20) ? letter : (letter + 1);
+// 		// printf("lowbound will equal 4 when the following number is 0: %d\n", ((index - 1) % 20));
+// 	}
+// 	// remove_excess_dots_two(ary, lines2);
+// }
+
+
 void	change_to_letter(char **ary, int lines, int lines2)
 {
 	int		index;
@@ -81,39 +125,17 @@ void	change_to_letter(char **ary, int lines, int lines2)
 
 	index = 0;
 	letter = 'A';
-	lowbound = 14;
-	highbound = -10;
-	while (lines > 0) // (lines > 0) this does not cause segfault but does not reach last tetrimino
+	while (lines > 0)
 	{
 		// printf("char before 'ho':%c\n", ary[0][(index % 4)]);
 		if ((ary[0][(index % 4)]) == '#')
-		{
 			ary[0][(index % 4)] = letter;
-			lowbound = ((index % 4) < lowbound) ? (index % 4) : lowbound;
-			highbound = ((index % 4) > highbound) ? (index % 4) : highbound;
-			printf("line:%d lowbound:%d highbound:%d \n", index / 4, lowbound, highbound);
-		}
-
-		// printf("hey\n");
-		// printf("loop count: %d lowbound: %d highbound: %d index: %d string: %s \n", lines, lowbound, highbound, 1 +(index / 4), ary[-4]);
-		if (!((index) % 20) && (index > 1))
-		{
-			printf("lines: %d loop count: %d lowbound: %d highbound: %d index: %d  string: %s ---\n",lines,  index, lowbound, highbound, (index % 4), ary[-5]);
-			remove_excess_dots(&ary[-5], lowbound, highbound);
-			lowbound = 14;
-			highbound = -10;
-		}
-
-
-
-		// INDEX NOW INCREASED
 		++index;
 		ary = (index % 4) ? ary : (ary + 1);
 		lines = (index % 4) ? lines : (lines - 1);
 		letter = (index % 20) ? letter : (letter + 1);
-		// printf("lowbound will equal 4 when the following number is 0: %d\n", ((index - 1) % 20));
 	}
-	// remove_excess_dots_two(ary, lines2);
+	remove_excess_dots_two(ary, lines2);
 }
 
 
@@ -132,7 +154,7 @@ void	change_to_letter(char **ary, int lines, int lines2)
 
 
 
-
+// CHECK_TETRIMINOE*******************
 // function assumes four characters per line and calculates chr by mulplying lines by four, though there are empty lines. 
 // when empty lines are encountered, 4 is subtracted from chr count
 
@@ -190,7 +212,7 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 
 
 
-
+//	GNL FILLIT ***********
 
 // while open() has a valid return, and gnl is returning more than 0 and adding read lines to the array of pointers, and gnl only executes 130 times (130 newlines is limite of valid files)
 // 		if the strlen is not 4 and the line number is not divisible by five (1,2,3,4 ,6,7,8,9 ...) or 
@@ -241,88 +263,50 @@ int		gnl_fillit(char *argv, char **ary)
 
 
 
+void	create_grid(char **grid, int size)
+{
+	// char	ary[size][size + 1];
+	int		x;
+	int		y;
 
-// void		remove_excess_dots(char **ary, int lines)
-// {
-// 	int		boundrylow;
-// 	int		counterlines;
-// 	int		holder;
-// 	char	letter;
-// 	int		i;
-
-// 	letter = 'A';
-// 	i = 0;
-// 	boundrylow = 4;
-// 	counterlines = 0;
-
-// 	while (lines)
-// 	{
-// 		while (counterlines < 5) // count from starting line
-// 		{
-// 			while (i < 4)
-// 			{
-// 				if (*ary[i] == letter)
-// 				{
-// 					boundrylow = (i < boundrylow) ? i: boundrylow;
-// 					break ;
-// 				}
-// 				i++;
-// 			}
-// 			++ary;
-// 			++counterlines;
-// 			--lines;
-// 		}
-// 		if (counterlines == 5)
-// 		{
-// 			while (counterlines)
-// 			{
-// 				printf("before: %s ----", (ary - counterlines)[0]);
-// 				ft_memmove( (ary - counterlines)[boundrylow], (ary - counterlines)[0], ft_strlen((ary - counterlines)[0]) + 1);
-// 				--counterlines;
-// 				printf("after: %s +++++, boundrylow = %d\n", ary[i], boundrylow);
-// 			}
-// 		}
-// 		++letter;
-// 		i = 0;
-// 		// printf("hey, lines:%d\n", lines);
-// 	}
-// }
-
-
+	x = 0;
+	y = 0;
+	// grid = (char**)malloc(sizeof(char*) * size);
+	while(x < size)
+	{
+		grid[x] = (char*)malloc(size + 1);
+		while (y < size)
+		{
+			grid[x][y] = '.';
+			++y;
+			if (y == size)
+				grid[x][y] = '\0';
+		}
+		++x;
+	}
+	// return (ary);
+}
 
 
 int		main(int argc, char *argv[])
 {
 	char		*ary[130];
-	int			lines;
+	int			lines = gnl_fillit(argv[1], ary);
 	int			i = 0;
-	int			lines2;
-
-
-	lines = gnl_fillit(argv[1], ary);
-	lines2 = lines;
+	// char grid[21][22];
+	char		*grid[22];
+	
+	create_grid(grid, 12);
 
 	if (lines <= 0)
 		printf("error\n");
-
-	// remove_excess_dots(ary, lines);
 
 	while(lines--)
 		printf("----Return: %d, String: %s\n", lines, ary[i++]);
 
 	i = 0;
-	lines = lines2;
-	
-	// while(lines--)
-	// {
-	// 	(!ft_strlen(ary[i])) ? ft_memdel((void*)&ary[i]): ary[i];
-	// 	i++;
-	// }
-	// i = 0;
-	// lines = lines2;
-
-	// while(lines--)
-	// 	printf("----Return: %d, String: %s\n", lines, ary[i++]);
+	while(i < 15)
+		printf("----i: %d, String: %s\n",i , grid[i++]);
 
 	return (0);
 }
