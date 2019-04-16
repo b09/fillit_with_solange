@@ -287,6 +287,140 @@ void	create_grid(char **grid, int size)
 	// return (ary);
 }
 
+// create smallest possible grid sqroot((2 x 2) * number of tertriminoes)
+// for now, can create largest grid, then once working, create a dynamically changing grid
+// iterate thru every index of every line checking availibility to add character from tertrimino file
+// how would i know that a grid is too small for the given tetriminoes?
+//		- if every index of the grid has been checked
+// if grid is too small, free previous grid, make new grid
+
+
+
+// think first of adding one entrie tetriminoe
+// if lines is not zero by the end of the iteration, then something is not complete, in which case the recursion should start
+// if startingindexgrid is incremented upon failure and divided by gridsize, then line number and index of lines number and be calculated
+// how do i bring the grid pointer back to the line it first started printing on? ex; if i print aan\a.n\a. onto the grid, how to i 
+// get back to the first line?
+
+// int		add_tetrimino(char **tetrislines, char **grid, int gridsize, int indexgrid)
+// {
+// 	// add individual tetriminoe to grid
+// 	int		numberoflinestocopy;
+// 	int		x;
+// 	int		y;
+// 	int		gx;
+// 	int		gy;
+
+// 	x = 0;
+// 	y = 0;
+// 	numberoflinestocopy = 4;
+// 	while (tetrislines[x][y] != 0 && numberoflinestocopy > 0)
+// 	{
+// 		gx = (indexgrid + (x * gridsize)) / gridsize;
+// 		gy = (indexgrid % gridsize) + y;
+
+// 		while ((grid[gx][gy] == '.') && (tetrislines[x][y] != 0))
+// 		{
+// 			if ft_isalpha(tetrislines[x][y]);
+// 				grid[gx][gy] = tetrislines[x][y];
+// 			++y;
+// 			gx = (indexgrid + (x * gridsize)) / gridsize;
+// 			gy = (indexgrid % gridsize) + y;
+// 		}
+
+// 		++x;
+// 		--numberoflinestocopy;
+// 	}
+
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+void	increase_pointer_tetrislines(char ***tetrislines)
+{
+	int		i;
+	
+	i = 0;
+	while (*tetrislines[i][0] == '\0')
+		++i;
+}
+
+
+int		add_tetrimino(char **tetrislines, char **grid, int gridsize, int indexgrid)
+{
+	// add individual tetriminoe to grid
+	// how do I add a tetriminoe whose starting value is a '.'? how to should the indexes be changed
+	int		numberoflinestocopy;
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while (x < 4)
+	{
+		y = 0;
+		while (((grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y] == '.') || \
+		(ft_isalpha(grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
+		{
+			if (((indexgrid % gridsize) + y ) >= gridsize)
+				return (-1);
+			if (ft_isalpha(tetrislines[x][y]))
+				grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y] = tetrislines[x][y];
+			++y;
+		}
+		// if (iterate_thru_grid(variables) == -1)
+		
+		++x;
+	}
+	return (0);
+}
+
+// must delete grid that was not used
+// rememmber that each valid tetris line can contain '.'
+// need tetris pointer to always point to a valid start of a tetriminoe
+
+void		iterate_thru_grid(char **tetrislines, char **grid, int lines, int gridsize, int indexgrid)
+{
+	int		startingindex;
+	int		tetrisstartindex;
+
+	startingindex = indexgrid;
+	while (indexgrid < (gridsize * gridsize))
+	{
+		if (grid[indexgrid / gridsize][indexgrid % gridsize] == '.')
+			add_tetrimino(tetrislines, grid, gridsize, indexgrid);
+		++indexgrid;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int		main(int argc, char *argv[])
 {
