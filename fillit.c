@@ -192,7 +192,6 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 			i = (((chr > 0) && ((*(ary + 1))[y] == '#'))) ? (i + 1) : i;
 			i = ((chr < (4 * lin - 3)) && ((*(ary - 1))[y] == '#')) ? (i + 1) : i;
 		}
-		// printf("this is string: %s, lines:%d, i:%d, division:%d\n", (*ary), chr, i, (((chr + 4) / 4) % 5));
 		ary = (y == 3 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
 		if (((chr / 4) % 20 == 0) && (i != 6) && (i != 8))
 			return (0);
@@ -263,18 +262,18 @@ int		gnl_fillit(char *argv, char **ary)
 
 
 
-void	create_grid(char **grid, int size)
+char	**create_grid(char **grid, int size)
 {
-	// char	ary[size][size + 1];
 	int		x;
 	int		y;
 
 	x = 0;
 	y = 0;
-	// grid = (char**)malloc(sizeof(char*) * size);
+	grid = (char**)malloc(sizeof(char*) * size);
 	while(x < size)
 	{
 		grid[x] = (char*)malloc(size + 1);
+		y = 0;
 		while (y < size)
 		{
 			grid[x][y] = '.';
@@ -284,7 +283,7 @@ void	create_grid(char **grid, int size)
 		}
 		++x;
 	}
-	// return (ary);
+	return (grid);
 }
 
 // create smallest possible grid sqroot((2 x 2) * number of tertriminoes)
@@ -345,70 +344,207 @@ void	create_grid(char **grid, int size)
 
 
 
-void	increase_pointer_tetrislines(char ***tetrislines)
-{
-	int		i;
+// void	increase_pointer_tetrislines(char ***tetrislines)
+// {
+// 	int		i;
 	
-	i = 0;
-	while (*tetrislines[i][0] == '\0')
-		++i;
-}
+// 	i = 0;
+// 	while (*tetrislines[i][0] == '\0')
+// 		++i;
+// }
 
 
-int		add_tetrimino(char **tetrislines, char **grid, int gridsize, int indexgrid)
+// int		add_tetrimino(char **tetrislines, char **grid, int gridsize, int indexgrid)
+// {
+// 	// add individual tetriminoe to grid
+// 	// how do I add a tetriminoe whose starting value is a '.'? how to should the indexes be changed
+// 	int		numberoflinestocopy;
+// 	int		x;
+// 	int		y;
+
+// 	x = 0;
+// 	y = 0;
+// 	while (x < 4)
+// 	{
+// 		y = 0;
+// 		while (((grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y] == '.') || \
+// 		(ft_isalpha(grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
+// 		{
+// 			if (((indexgrid % gridsize) + y ) >= gridsize)
+// 				return (-1);
+// 			if (ft_isalpha(tetrislines[x][y]))
+// 				grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y] = tetrislines[x][y];
+// 			++y;
+// 		}
+// 		// if (iterate_thru_grid(variables) == -1)
+		
+// 		++x;
+// 	}
+// 	return (0);
+// }
+
+// // must delete grid that was not used
+// // rememmber that each valid tetris line can contain '.'
+// // need tetris pointer to always point to a valid start of a tetriminoe
+
+// void		iterate_thru_grid(char **tetrislines, char **grid, int lines, int gridsize, int indexgrid)
+// {
+// 	int		startingindex;
+// 	int		tetrisstartindex;
+
+// 	startingindex = indexgrid;
+// 	while (indexgrid < (gridsize * gridsize))
+// 	{
+// 		if (grid[indexgrid / gridsize][indexgrid % gridsize] == '.')
+// 			add_tetrimino(tetrislines, grid, gridsize, indexgrid);
+// 		++indexgrid;
+// 	}
+// }
+
+
+
+// void		iterate_thru_grid(char **tetrislines, char **grid, int lines, int gridsize, int indexgrid)
+// {
+// 	int		startingindex;
+// 	int		tetrisstartindex;
+
+// 	startingindex = indexgrid;
+// 	if (lines)
+// 	{
+// 		if (grid[indexgrid / gridsize][indexgrid % gridsize] == '.')
+// 			add_tetrimino(tetrislines, grid, gridsize, indexgrid);
+// 		++indexgrid;
+// 	}
+// }
+
+
+
+
+
+
+/*
+func(tetrislines, grid, lines, gridsize, indexgrid)
+
+	if tetrislines > 0																	there are tetriminoes
+
+		linesremaining = add tetriminoe starting at the gridindex 0						start at beginning of grid
+		{while 4 lines (max lines for valid tetriminoe)
+			add to grid if conditions met
+			if conditions are not met
+				return -1;
+			else
+				return linesremaing;}
+
+		if (indexgrid == (gridsize * gridsize) - 1) && (lines > 0)							
+			free grid content
+			func(tetrislines, grid, lines, 1 + gridsize, indexgrid)
+
+		if linesremaining == 0
+			return 1;
+
+		if linesremaining == -1
+			remove previous tetris letter from grid
+			func(tetrislines, grid, lines, gridsize, 1 + indexgrid)
+		
+		if linesremaining < 0
+			func(1 + tetrislines, grid, linesremaining, gridsize, indexgrid)
+	
+
+when lines are complete, return 1;
+
+*/
+
+
+
+
+
+///////////////////simple functions to get a handle on backtracking/////////////////////////
+
+// add as many letters as can fit onto a grid
+
+// always start at indexgrid 0
+
+// is the placement of the tetriminoe and that index of the grid possible, if yes, add to grid
+// otherwise increase index
+// if index reaches maximum, exit.
+// how do i check that all lines in one tetriminoe have been checked
+
+// what if tetrislines is on a empty line and x is 
+
+// start of tetris 
+// end of tetris 
+// does not exceed boundry of grid 
+// donot think about anything more than one tetriminoe
+// what is a valid state of a checked tetrimoneo?
+// 	- the dereferenced string of tetreminoe at its current index is the terminating character and the next line is the terminating character 
+// what is a invalid state of a checked tetrimoneo?
+// 	- the dereferenced string of tetreminoe at an index zero is the terminating character 
+
+
+
+
+
+int		check_tetrimino(char **tetrislines, char **grid, int gridsize, int lines)
 {
-	// add individual tetriminoe to grid
-	// how do I add a tetriminoe whose starting value is a '.'? how to should the indexes be changed
-	int		numberoflinestocopy;
+	int		indexgrid;
+	int		gx;
+	int		gy;
 	int		x;
 	int		y;
+	int		check;
+	int		lettercheck;
+	int		positives = 0;
 
-	x = 0;
-	y = 0;
-	while (x < 4)
+	while(lines > 0)
 	{
-		y = 0;
-		while (((grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y] == '.') || \
-		(ft_isalpha(grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
+		x = 0;
+		lettercheck = 0;
+		check = 0;
+		indexgrid = 0;
+		while (x < 4 && !check)
 		{
-			if (((indexgrid % gridsize) + y ) >= gridsize)
-				return (-1);
-			if (ft_isalpha(tetrislines[x][y]))
-				grid[(indexgrid / gridsize) + x][(indexgrid % gridsize) + y] = tetrislines[x][y];
-			++y;
+			y = 0;
+			gx = (indexgrid / gridsize) + x;
+			gy = (indexgrid % gridsize) + y;
+			printf("lines: %d, x: %d, lettercheck: %d tetrisline: %s gx:%d, indexgrid:%d\n", lines, x, lettercheck, tetrislines[x], gx, indexgrid);
+			while (((gx < gridsize) && (gy < gridsize)) && ((grid[gx][gy] == '.') || (ft_isalpha(grid[gx][gy]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
+			{
+				printf("char:-%c- ", tetrislines[x][y]);
+				gy = (indexgrid % gridsize) + y;
+				printf(" gy:-%d- ", gy);
+				lettercheck += (ft_isalpha(tetrislines[x][y])) ? 1 : 0;
+				++y;
+				if (gy >= gridsize)
+					break ;
+			}
+			check = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
+			// check = ((gx == gridsize) || ((indexgrid + 1) == (gridsize * gridsize))) ? 1 : 0;
+			// if (!check && x == 3 && ((tetrislines[x][y] != 0) || (tetrislines[x + 1][0] != 0)))
+			if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(tetrislines[x][y]))))
+			{
+				indexgrid += 1;
+				printf("\nincreasing indexgrid: %d\n", indexgrid);
+				x = -1;
+				y = 0;
+				lettercheck = 0;
+			}
+			++x;
 		}
-		// if (iterate_thru_grid(variables) == -1)
-		
-		++x;
+		if (x == 4 && lettercheck == 4)
+		{
+			lines -= 5;
+			tetrislines += 5;
+			++positives;
+			printf("increasing tetrislines: %s\n", tetrislines[0]);
+		}
+		// printf("psitives; %d, lines: %d, indexgrid: %d, x: %d, lettercheck: %d, check:%d\n", positives, lines, indexgrid, x, lettercheck, check);
+		if (check)
+			return (101);
+		// else
+		// 	add_tetrimino(tetrislines, grid, )
 	}
 	return (0);
 }
-
-// must delete grid that was not used
-// rememmber that each valid tetris line can contain '.'
-// need tetris pointer to always point to a valid start of a tetriminoe
-
-void		iterate_thru_grid(char **tetrislines, char **grid, int lines, int gridsize, int indexgrid)
-{
-	int		startingindex;
-	int		tetrisstartindex;
-
-	startingindex = indexgrid;
-	while (indexgrid < (gridsize * gridsize))
-	{
-		if (grid[indexgrid / gridsize][indexgrid % gridsize] == '.')
-			add_tetrimino(tetrislines, grid, gridsize, indexgrid);
-		++indexgrid;
-	}
-}
-
-
-
-
-
-
-
-
 
 
 
@@ -428,9 +564,11 @@ int		main(int argc, char *argv[])
 	int			lines = gnl_fillit(argv[1], ary);
 	int			i = 0;
 	// char grid[21][22];
-	char		*grid[22];
+	char		**grid;
+	int			lines2 = lines;
+	int			size = 4;
 	
-	create_grid(grid, 12);
+	grid = create_grid(grid, size);
 
 	if (lines <= 0)
 		printf("error\n");
@@ -438,9 +576,16 @@ int		main(int argc, char *argv[])
 	while(lines--)
 		printf("----Return: %d, String: %s\n", lines, ary[i++]);
 
+	grid[0][0] = 'a';
+	grid[0][2] = 'a';
+	grid[1][1] = 'a';
+	grid[2][2] = 'a';
+
 	i = 0;
-	while(i < 15)
-		printf("----i: %d, String: %s\n",i , grid[i++]);
+	while(i < size)
+		printf("----i: %d, String: %s\n", i, grid[i++]);
+
+	printf("%d\n", check_tetrimino(ary, grid, size, lines2));
 
 	return (0);
 }
