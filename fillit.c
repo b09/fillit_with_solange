@@ -506,26 +506,21 @@ int		check_tetrimino(char **tetrislines, char **grid, int gridsize, int lines)
 			y = 0;
 			gx = (indexgrid / gridsize) + x;
 			gy = (indexgrid % gridsize) + y;
-			printf("lines: %d, x: %d, lettercheck: %d tetrisline: %s gx:%d, indexgrid:%d\n", lines, x, lettercheck, tetrislines[x], gx, indexgrid);
+			printf("lines: %d, x: %d, lettercheck: %d, gx:%d, gy:%d, indexgrid:%d, tetrisline: %s\n", lines, x, lettercheck, gx, gy, indexgrid, tetrislines[x]);
 			while (((gx < gridsize) && (gy < gridsize)) && ((grid[gx][gy] == '.') || (ft_isalpha(grid[gx][gy]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
 			{
-				printf("char:-%c- ", tetrislines[x][y]);
-				gy = (indexgrid % gridsize) + y;
-				printf(" gy:-%d- ", gy);
 				lettercheck += (ft_isalpha(tetrislines[x][y])) ? 1 : 0;
 				++y;
+				gy = (indexgrid % gridsize) + y;
+				printf("new gy:%d, new y:%d, new lettercheck: %d grid char:%c, tetris char: %c\n", gy, y, lettercheck, grid[gx][gy - 1], tetrislines[x][y - 1]);
 				if (gy >= gridsize)
 					break ;
 			}
 			check = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
-			// check = ((gx == gridsize) || ((indexgrid + 1) == (gridsize * gridsize))) ? 1 : 0;
-			// if (!check && x == 3 && ((tetrislines[x][y] != 0) || (tetrislines[x + 1][0] != 0)))
-			if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(tetrislines[x][y]))))
+			if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(tetrislines[x][y - 1]) && grid[gx][gy - 1] != '.')))
 			{
 				indexgrid += 1;
-				printf("\nincreasing indexgrid: %d\n", indexgrid);
 				x = -1;
-				y = 0;
 				lettercheck = 0;
 			}
 			++x;
@@ -535,9 +530,8 @@ int		check_tetrimino(char **tetrislines, char **grid, int gridsize, int lines)
 			lines -= 5;
 			tetrislines += 5;
 			++positives;
-			printf("increasing tetrislines: %s\n", tetrislines[0]);
+			printf("increasing tetrislines: %s\n\n", tetrislines[0]);
 		}
-		// printf("psitives; %d, lines: %d, indexgrid: %d, x: %d, lettercheck: %d, check:%d\n", positives, lines, indexgrid, x, lettercheck, check);
 		if (check)
 			return (101);
 		// else
@@ -578,7 +572,7 @@ int		main(int argc, char *argv[])
 
 	grid[0][0] = 'a';
 	grid[0][2] = 'a';
-	grid[1][1] = 'a';
+	grid[3][1] = 'a';
 	grid[2][2] = 'a';
 
 	i = 0;
