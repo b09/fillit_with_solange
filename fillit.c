@@ -497,7 +497,7 @@ int		check_tetrimino(char **ttrs, char **grid, int sz, int lines)
 		while (x < 4 && ((ig + 1) < (sz * sz)))
 		{
 			y = 0;
-			while (((grid[(ig / sz) + x][(ig % sz) + y] == '.') || (ft_isalpha(grid[(ig / sz) + x][(ig % sz) + y]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
+			while (((((ig / sz) + x) < sz) && (((ig % sz) + y) < sz)) && ((grid[(ig / sz) + x][(ig % sz) + y] == '.') || (ft_isalpha(grid[(ig / sz) + x][(ig % sz) + y]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
 			{
 				++y;
 				if (((ig % sz) + y) >= sz)
@@ -514,11 +514,68 @@ int		check_tetrimino(char **ttrs, char **grid, int sz, int lines)
 		}
 		lines -= (x == 4) ? 5: 0;
 		ttrs += (x == 4) ? 5: 0;
+		printf("lines: %d, x: %d, indexgrid:%d, tetrisline: %s\n", lines, x, ig, ttrs[x]);
 		if (((ig + 1) == (sz * sz)))
 			return (101);
 	}
 	return (0);
 }
+
+// int		check_tetrimino(char **tetrislines, char **grid, int gridsize, int lines)
+// {
+// 	int		indexgrid;
+// 	int		gx;
+// 	int		gy;
+// 	int		x;
+// 	int		y;
+// 	int		check;
+// 	int		lettercheck;
+// 	int		positives = 0;
+
+// 	while(lines > 0)
+// 	{
+// 		x = 0;
+// 		lettercheck = 0;
+// 		check = 0;
+// 		indexgrid = 0;
+// 		while (x < 4 && !check)
+// 		{
+// 			y = 0;
+// 			gx = (indexgrid / gridsize) + x;
+// 			gy = (indexgrid % gridsize) + y;
+// 			printf("lines: %d, x: %d, lettercheck: %d, gx:%d, gy:%d, indexgrid:%d, tetrisline: %s\n", lines, x, lettercheck, gx, gy, indexgrid, tetrislines[x]);
+// 			while (((gx < gridsize) && (gy < gridsize)) && ((grid[gx][gy] == '.') || (ft_isalpha(grid[gx][gy]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
+// 			{
+// 				lettercheck += (ft_isalpha(tetrislines[x][y])) ? 1 : 0;
+// 				++y;
+// 				gy = (indexgrid % gridsize) + y;
+// 				printf("new gy:%d, new y:%d, new lettercheck: %d grid char:%c, tetris char: %c\n", gy, y, lettercheck, grid[gx][gy - 1], tetrislines[x][y - 1]);
+// 				if (gy >= gridsize)
+// 					break ;
+// 			}
+// 			check = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
+// 			if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(tetrislines[x][y - 1]) && grid[gx][gy - 1] != '.')))
+// 			{
+// 				indexgrid += 1;
+// 				x = -1;
+// 				lettercheck = 0;
+// 			}
+// 			++x;
+// 		}
+// 		if (x == 4 && lettercheck == 4)
+// 		{
+// 			lines -= 5;
+// 			tetrislines += 5;
+// 			++positives;
+// 			printf("increasing tetrislines: %s\n\n", tetrislines[0]);
+// 		}
+// 		if (check)
+// 			return (101);
+// 		// else
+// 		// 	add_tetrimino(tetrislines, grid, )
+// 	}
+// 	return (0);
+// }
 
 
 
