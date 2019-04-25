@@ -245,14 +245,14 @@ int		delete_tetrimino(char **grid, char **ttrs, int gridsize, int check)
 		if (ft_isalpha(ttrs[x][y]))
 		{
 			letter = ttrs[x][y];
+			if (check)
+				return (letter);
 			break ;
 		}
 		y = (ttrs[x][y] != 0) ? -1 : y;
 		x += (y == -1) ? 1 : 0;
 		y++;
 	}
-	// if (check)
-	// 	return (letter);
 	x = 0;
 	y = 1000;
 	if (letter)
@@ -294,6 +294,7 @@ int		check_entire_list(char **ttrs, char **grid, int lines, int indexgrid)
 		indexgrid = 1 + delete_tetrimino(grid, ttrs, gridsize, 0);
 	}
 	return(check_entire_list(ttrs, grid, lines, indexgrid));
+	return(0);
 }
 
 int		main(int argc, char *argv[])
@@ -314,6 +315,6 @@ int		main(int argc, char *argv[])
 	i = 0;
 	while (i < size)
 		printf("----i: %d, String: %s\n", i, grid[i++]);
-	printf("%d\n", check_entire_list(ary, grid, size, lines2));
+	printf("%d\n", check_entire_list(ary, grid, lines2, 0));
 	return (0);
 }
