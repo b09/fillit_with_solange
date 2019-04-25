@@ -484,42 +484,42 @@ when lines are complete, return 1;
 
 
 
-int		check_tetrimino(char **ttrs, char **grid, int sz, int lines)
-{
-	int		ig;
-	int		x;
-	int		y;
+// int		check_tetrimino(char **ttrs, char **grid, int sz, int lines)
+// {
+// 	int		ig;
+// 	int		x;
+// 	int		y;
 
-	while(lines > 0)
-	{
-		x = 0;
-		ig = 0;
-		while (x < 4 && ((ig + 1) < (sz * sz)))
-		{
-			y = 0;
-			while (((((ig / sz) + x) < sz) && (((ig % sz) + y) < sz)) && ((grid[(ig / sz) + x][(ig % sz) + y] == '.') || (ft_isalpha(grid[(ig / sz) + x][(ig % sz) + y]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
-			{
-				++y;
-				if (((ig % sz) + y) >= sz)
-					break ;
-			}
-			if ((ig + 1) == (sz * sz))
-				break ;
-			if ((x == 3) || (((ig % sz) + y == sz) && (ft_isalpha(ttrs[x][y - 1])) && (grid[(ig / sz) + x][(ig % sz) + y - 1] != '.')))
-			{
-				ig += 1;
-				x = -1;
-			}
-			++x;
-		}
-		lines -= (x == 4) ? 5: 0;
-		ttrs += (x == 4) ? 5: 0;
-		printf("lines: %d, x: %d, indexgrid:%d, tetrisline: %s\n", lines, x, ig, ttrs[x]);
-		if (((ig + 1) == (sz * sz)))
-			return (101);
-	}
-	return (0);
-}
+// 	while(lines > 0)
+// 	{
+// 		x = 0;
+// 		ig = 0;
+// 		while (x < 4 && ((ig + 1) < (sz * sz)))
+// 		{
+// 			y = 0;
+// 			while (((((ig / sz) + x) < sz) && (((ig % sz) + y) < sz)) && ((grid[(ig / sz) + x][(ig % sz) + y] == '.') || (ft_isalpha(grid[(ig / sz) + x][(ig % sz) + y]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
+// 			{
+// 				++y;
+// 				if (((ig % sz) + y) >= sz)
+// 					break ;
+// 			}
+// 			if ((ig + 1) == (sz * sz))
+// 				break ;
+// 			if ((x == 3) || (((ig % sz) + y == sz) && (ft_isalpha(ttrs[x][y - 1])) && (grid[(ig / sz) + x][(ig % sz) + y - 1] != '.')))
+// 			{
+// 				ig += 1;
+// 				x = -1;
+// 			}
+// 			++x;
+// 		}
+// 		lines -= (x == 4) ? 5: 0;
+// 		ttrs += (x == 4) ? 5: 0;
+// 		printf("lines: %d, x: %d, indexgrid:%d, tetrisline: %s\n", lines, x, ig, ttrs[x]);
+// 		if (((ig + 1) == (sz * sz)))
+// 			return (101);
+// 	}
+// 	return (0);
+// }
 
 // int		check_tetrimino(char **tetrislines, char **grid, int gridsize, int lines)
 // {
@@ -549,11 +549,10 @@ int		check_tetrimino(char **ttrs, char **grid, int sz, int lines)
 // 				lettercheck += (ft_isalpha(tetrislines[x][y])) ? 1 : 0;
 // 				++y;
 // 				gy = (indexgrid % gridsize) + y;
-// 				printf("new gy:%d, new y:%d, new lettercheck: %d grid char:%c, tetris char: %c\n", gy, y, lettercheck, grid[gx][gy - 1], tetrislines[x][y - 1]);
 // 				if (gy >= gridsize)
 // 					break ;
 // 			}
-// 			check = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
+// 			  = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
 // 			if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(tetrislines[x][y - 1]) && grid[gx][gy - 1] != '.')))
 // 			{
 // 				indexgrid += 1;
@@ -589,6 +588,228 @@ int		check_tetrimino(char **ttrs, char **grid, int sz, int lines)
 
 
 
+
+
+
+void	add_to_grid(char **tetrislines, char **grid, int gx, int gy)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while(x < 4)
+	{
+		if (ft_isalpha(tetrislines[x][y]))
+			grid[gx + x][gy + y] = tetrislines[x][y];
+		++y;
+		if (tetrislines[x][y] == 0)
+		{
+			y = 0;
+			x++;
+		}
+	}
+}
+
+
+int		check_tetrimino(char **tetrislines, char **grid, int gridsize, int indexgrid)
+{
+	int		gx;
+	int		gy;
+	int		x;
+	int		y;
+	int		check;
+	int		lettercheck;
+
+	x = 0;
+	lettercheck = 0;
+	check = 0;
+	while (x < 4 && !check)
+	{
+		y = 0;
+		gx = (indexgrid / gridsize) + x;
+		gy = (indexgrid % gridsize) + y;
+		printf("x: %d, lettercheck: %d, gx:%d, gy:%d, indexgrid:%d, tetrisline: %s\n", x, lettercheck, gx, gy, indexgrid, tetrislines[x]);
+		while (((gx < gridsize) && (gy < gridsize)) && ((grid[gx][gy] == '.') || (ft_isalpha(grid[gx][gy]) && (tetrislines[x][y] == '.' ))) && (tetrislines[x][y] != 0))
+		{
+			lettercheck += (ft_isalpha(tetrislines[x][y])) ? 1 : 0;
+			++y;
+			gy = (indexgrid % gridsize) + y;
+			if (gy >= gridsize)
+				break ;
+		}
+		check = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
+		if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(tetrislines[x][y - 1]) && grid[gx][gy - 1] != '.')))
+			return (0);
+		++x;
+	}
+	if (check)
+		return (-1);
+	add_to_grid(tetrislines, grid, indexgrid / gridsize, indexgrid % gridsize);
+	x = 0;
+	while(x < gridsize)
+		printf("%s\n", grid[x++]);
+	return (1);
+}
+
+int		delete_tetrimino(char **grid, char **tetrislines, int gridsize)
+{
+	char	letter;
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while (x < 4)
+	{
+		if (ft_isalpha(tetrislines[x][y]))
+		{
+			letter = tetrislines[x][y];
+			break ;
+		}
+		if (tetrislines[x][y] != 0)
+		{
+			y = -1;
+			x++;
+		}
+		y++;
+	}
+	x = 0;
+	y = 1000;
+	if (letter)
+	{
+		while ((x + 1) <= (gridsize * gridsize))
+		{
+			if (grid[x / gridsize][x % gridsize] == letter)
+			{
+				grid[x / gridsize][x % gridsize] = '.';
+				y = (x < y) ? x : y;
+			}
+			++x;
+		}
+	}
+	x = 0;
+	while (x < gridsize)
+		printf("%s\n", grid[x++]);
+	return (y);
+}
+
+
+int		check_entire_list(char **tetrislines, char **grid, int gridsize, int lines, int indexgrid)
+{
+	int		ret;
+
+	if (lines < 1)
+		return (1);
+	ret = check_tetrimino(tetrislines, grid, gridsize, indexgrid);
+	if (ret == 1)
+	{
+		tetrislines += 5;
+		lines -= 5;
+		indexgrid = 0;
+	}
+	if (ret == 0)
+		++indexgrid;
+	if (ret == -1)
+	{
+		tetrislines -= 5;
+		lines += 5;
+		indexgrid = 1 + delete_tetrimino(grid, tetrislines, gridsize);
+	}
+	// while (lines)
+	// {
+		// if (check_entire_list(tetrislines, grid, gridsize, lines, indexgrid))
+	return(check_entire_list(tetrislines, grid, gridsize, lines, indexgrid));
+	// }
+		
+	return (0);
+}
+
+
+// int		check_entire_list(char **tetrislines, char **grid, int gridsize, int lines, int indexgrid)
+// {
+// 	int		ret;
+
+// 	if (lines < 1)
+// 		return (1);
+
+// 	ret = check_tetrimino(tetrislines, grid, gridsize, indexgrid);
+// 	if (ret == 1)
+// 		return (check_entire_list(tetrislines + 5, grid, gridsize, lines - 5, 0));
+// 	if (ret == 0)
+// 		return (check_entire_list(tetrislines, grid, gridsize, lines, indexgrid + 1));
+// 	if (ret == -1)
+// 	{
+// 		tetrislines -= 5;
+// 		lines += 5;
+// 		delete_tetrimino(grid, tetrislines, gridsize);
+// 		if (((check_entire_list(tetrislines, grid, gridsize, lines, 0)) || (check_entire_list(tetrislines, grid, gridsize, lines, indexgrid + 1))) > 0)
+// 			return (1);
+// 	}
+		
+// 	return (0);
+// }
+
+
+
+// int		check_entire_list(char **tetrislines, char **grid, int gridsize, int lines)
+// {
+// 	int		indexgrid;
+// 	int		ret;
+// 	int		checks;
+// 	int		lines2;
+
+// 	lines2 = lines;
+// 	checks = 0;
+// 	indexgrid = 0;
+// 	while(lines > 0)
+// 	{
+// 		ret = check_tetrimino(tetrislines, grid, gridsize, indexgrid);
+// 		if (ret == 1)
+// 		{
+// 			tetrislines += 5;
+// 			lines -= 5;
+// 			check_entire_list(tetrislines, grid, gridsize, lines);
+// 		}
+// 		if (ret == 0)
+// 			++indexgrid;
+// 		if (ret == -1)// && (lines > 5) && (lines != lines2))
+// 		{
+// 			tetrislines -= 5;
+// 			lines += 5;
+// 			delete_tetrimino(grid, tetrislines, gridsize);
+// 		}
+			
+// 	}
+// 	if (lines < 1)
+// 		return (1);
+// 	if (lines)
+// 		return (-1);
+// 	return (0);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int		main(int argc, char *argv[])
 {
 	char		*ary[130];
@@ -597,7 +818,7 @@ int		main(int argc, char *argv[])
 	// char grid[21][22];
 	char		**grid;
 	int			lines2 = lines;
-	int			size = 4;
+	int			size = 6;
 	
 	grid = create_grid(grid, size);
 
@@ -607,16 +828,16 @@ int		main(int argc, char *argv[])
 	while(lines--)
 		printf("----Return: %d, String: %s\n", lines, ary[i++]);
 
-	grid[0][0] = 'a';
-	grid[0][2] = 'a';
-	grid[3][1] = 'a';
-	grid[2][2] = 'a';
+	// grid[0][0] = 'a';
+	// grid[0][2] = 'a';
+	// grid[3][1] = 'a';
+	// // grid[2][2] = 'a';
 
 	i = 0;
 	while(i < size)
 		printf("----i: %d, String: %s\n", i, grid[i++]);
 
-	printf("%d\n", check_tetrimino(ary, grid, size, lines2));
+	printf("%d\n", check_entire_list(ary, grid, size, lines2, 0));
 
 	return (0);
 }
