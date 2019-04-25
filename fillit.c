@@ -280,13 +280,13 @@ int		check_entire_list(char **ttrs, char **grid, int lines, int indexgrid)
 	int gridsize = ft_strlen(grid[0]);
 	if (lines < 1)
 		return (1);
+	if ((delete_tetrimino(grid, ttrs, gridsize, 1) == 'A') && ((indexgrid + 1) == (gridsize * gridsize)))
+		return (0);
 	ret = check_tetrimino(ttrs, grid, gridsize, indexgrid);
 	ttrs += (ret == 1) ? 5 : 0;
 	lines -= (ret == 1) ? 5 : 0;
 	indexgrid = (ret == 1) ? 0 : indexgrid;
 	indexgrid += (ret == 0) ? 1 : 0;
-	// if ((delete_tetrimino(grid, ttrs, gridsize, 1) == 'A') && ((indexgrid + 1) == (gridsize * gridsize)))
-	// 	return (0);
 	if (ret == -1)
 	{
 		ttrs -= 5;
@@ -294,7 +294,33 @@ int		check_entire_list(char **ttrs, char **grid, int lines, int indexgrid)
 		indexgrid = 1 + delete_tetrimino(grid, ttrs, gridsize, 0);
 	}
 	return(check_entire_list(ttrs, grid, lines, indexgrid));
-	return(0);
+}
+
+int		ft_sqrt(int nb)
+{
+	int i;
+
+	i = 2;
+	if (nb < 1)
+		return (0);
+	while (i * i < nb)
+		i++;
+	if (i * i >= nb)
+		return (i);
+	else
+		return (0);
+}
+
+void	delete_grid(char **grid, int size)
+{
+	int 	x;
+
+	x = 0;
+	while(x < size)
+	{
+		free(grid[x]);
+		++x;
+	}
 }
 
 int		main(int argc, char *argv[])
@@ -304,17 +330,24 @@ int		main(int argc, char *argv[])
 	int			i = 0;
 	char		**grid;
 	int			lines2 = lines;
-	int			size = 6;
-	
+	int			size;
+
+	size = 4 * (lines / 5) + 1;
+	size = ft_sqrt(size);
 	grid = create_grid(grid, size);
 
 	if (lines <= 0)
 		printf("error\n");
 	while (lines--)
 		printf("----Return: %d, String: %s\n", lines, ary[i++]);
+	while (check_entire_list(ary, grid, lines2, 0) == 0)
+	{
+		delete_grid(grid, size);
+		++size;
+		grid = create_grid(grid, size);
+	}
 	i = 0;
 	while (i < size)
 		printf("----i: %d, String: %s\n", i, grid[i++]);
-	printf("%d\n", check_entire_list(ary, grid, lines2, 0));
 	return (0);
 }
