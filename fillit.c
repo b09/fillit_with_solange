@@ -133,19 +133,31 @@ int		gnl_fillit(char *argv, char **ary)
 		if (((ft_strlen(ary[nline]) != 4) && ((nline + 1) % 5)) || \
 			((ft_strlen(ary[nline]) != 0) && ((nline + 1) % 5) == 0) || \
 			((lnchk(ary[nline]) < 0) && ((nline + 1) % 5)))
-			return (0);
+			return (7);
 		chars += lnchk(ary[nline]);
 		if ((((nline + 1) % 5) == 0) && (chars != 4))
-			return (0);
+			return (6);
 		chars = (((nline + 1) % 5) == 0) ? 0 : chars;
 		++nline;
 	}
 	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4), ary)) || \
 		get_next_line(openfd, &ary[nline]))
-		return (0);
+		return (3);
 	close(openfd);
 	return (nline);
 }
+
+
+
+
+
+
+
+
+////************************************************ check all functions above line
+
+
+
 
 char	**create_grid(char **grid, int size)
 {
@@ -338,16 +350,17 @@ int		main(int argc, char *argv[])
 
 	if (lines <= 0)
 		printf("error\n");
-	while (lines--)
-		printf("----Return: %d, String: %s\n", lines, ary[i++]);
-	while (check_entire_list(ary, grid, lines2, 0) == 0)
-	{
-		delete_grid(grid, size);
-		++size;
-		grid = create_grid(grid, size);
-	}
-	i = 0;
-	while (i < size)
-		printf("----i: %d, String: %s\n", i, grid[i++]);
+	printf("lines outout: %d\n", lines);
+	// while (lines--)
+	// 	printf("----Return: %d, String: %s\n", lines, ary[i++]);
+	// while (check_entire_list(ary, grid, lines2, 0) == 0)
+	// {
+	// 	delete_grid(grid, size);
+	// 	++size;
+	// 	grid = create_grid(grid, size);
+	// }
+	// i = 0;
+	// while (i < size)
+	// 	printf("----i: %d, String: %s\n", i, grid[i++]);
 	return (0);
 }
