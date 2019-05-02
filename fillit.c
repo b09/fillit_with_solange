@@ -243,14 +243,15 @@ int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
 	int		y;
 
 	x = 0;
-	y = 1000;
-	while (ttrs[x][0] == 0)
+	y = 0;
+	while (ttrs[x][0] == 0 || ttrs[x][0] == '.')
 		++x;
 	if (ft_isalpha(ttrs[x][0]))
 	{
 		letter = ttrs[x][0];
 		if (check)
 			return (letter);
+		y = 1000;
 		x = 0;
 		while ((x + 1) <= (gridsize * gridsize))
 		{
@@ -275,8 +276,9 @@ int		check_entire_list(char **ttrs, char **grid, int lines, int gindx)
 		return (1);
 	if ((pop_ttr(grid, ttrs, gsize, 1) == 'A') && (gindx >= gsize * gsize))
 		return (0);
-	while (lines > 1 && (gindx < gsize * gsize))
+	while ((lines > 1) && (gindx < (gsize * gsize)))
 	{
+		printf("gindx %d, %c\n", gindx, pop_ttr(grid, ttrs, gsize, 1));
 		ret = check_tetrimino(ttrs, grid, gsize, gindx);
 		ttrs += (ret == 1) ? 5 : 0;
 		lines -= (ret == 1) ? 5 : 0;
@@ -331,7 +333,8 @@ int		main(int argc, char *argv[])
 	if (lines > 0)
 	{
 		size = 4 * (lines / 5) + 1;
-		size = ft_sqrt(size);
+		// size = ft_sqrt(size);
+		size = 5;
 		grid = create_grid(grid, size);
 		i = 0;
 		while (i < size)
