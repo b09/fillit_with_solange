@@ -133,16 +133,16 @@ int		gnl_fillit(char *argv, char **ary)
 		if (((ft_strlen(ary[nline]) != 4) && ((nline + 1) % 5)) || \
 			((ft_strlen(ary[nline]) != 0) && ((nline + 1) % 5) == 0) || \
 			((lnchk(ary[nline]) < 0) && ((nline + 1) % 5)))
-			return (7);
+			return (0);
 		chars += lnchk(ary[nline]);
 		if ((((nline + 1) % 5) == 0) && (chars != 4))
-			return (6);
+			return (0);
 		chars = (((nline + 1) % 5) == 0) ? 0 : chars;
 		++nline;
 	}
 	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4), ary)) || \
 		get_next_line(openfd, &ary[nline]))
-		return (3);
+		return (0);
 	close(openfd);
 	return (nline);
 }
@@ -243,22 +243,24 @@ int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
 	int		y;
 
 	x = 0;
+	y = 1000;
 	while (ttrs[x][0] == 0)
 		++x;
 	if (ft_isalpha(ttrs[x][0]))
-		letter = ttrs[x][0];
-	if (check)
-		return (letter);
-	x = 0;
-	y = 1000;
-	while ((x + 1) <= (gridsize * gridsize))
 	{
-		if (grid[x / gridsize][x % gridsize] == letter)
+		letter = ttrs[x][0];
+		if (check)
+			return (letter);
+		x = 0;
+		while ((x + 1) <= (gridsize * gridsize))
 		{
-			grid[x / gridsize][x % gridsize] = '.';
-			y = (x < y) ? x : y;
+			if (grid[x / gridsize][x % gridsize] == letter)
+			{
+				grid[x / gridsize][x % gridsize] = '.';
+				y = (x < y) ? x : y;
+			}
+			++x;
 		}
-		++x;
 	}
 	return (y);
 }
@@ -271,9 +273,9 @@ int		check_entire_list(char **ttrs, char **grid, int lines, int gindx)
 	gsize = ft_strlen(grid[0]);
 	if (lines < 1)
 		return (1);
-	if ((pop_ttr(grid, ttrs, gsize, 1) == 'A') && (gindx + 1 == gsize * gsize))
+	if ((pop_ttr(grid, ttrs, gsize, 1) == 'A') && (gindx >= gsize * gsize))
 		return (0);
-	while ((lines > 1) && (gindx + 1 == gsize * gsize))
+	while (lines > 1 && (gindx < gsize * gsize))
 	{
 		ret = check_tetrimino(ttrs, grid, gsize, gindx);
 		ttrs += (ret == 1) ? 5 : 0;
@@ -326,27 +328,31 @@ int		main(int argc, char *argv[])
 	int			lines2 = lines;
 	int			size;
 
-	size = 4 * (lines / 5) + 1;
-	// articially making size smaller than min to test increased grid size
-	size = ft_sqrt(size);
-	grid = create_grid(grid, size);
-
-	// i = 0;
-	// while (i < size)
-	// 	printf("----i: %d, String: %s\n", i, grid[i++]);
-	if (lines <= 0)
-		printf("error\n");
-	printf("lines outout: %d\n", lines);
-	// while (lines--)
-	// 	printf("----Return: %d, String: %s\n", lines, ary[i++]);
-	while (check_entire_list(ary, grid, lines2, 0) == 0)
+	if (lines > 0)
 	{
-		delete_grid(grid, size);
-		++size;
+		size = 4 * (lines / 5) + 1;
+		size = ft_sqrt(size);
 		grid = create_grid(grid, size);
+		i = 0;
+		while (i < size)
+			printf("----i: %d, String: %s\n", i, grid[i++]);
+		while (check_entire_list(ary, grid, lines2, 0) == 0)
+		{
+			delete_grid(grid, size);
+			++size;
+			grid = create_grid(grid, size);
+		}
+		i = 0;
+		while (i < size)
+			printf("----i: %d, String: %s\n", i, grid[i++]);
 	}
-	i = 0;
-	while (i < size)
-		printf("----i: %d, String: %s\n", i, grid[i++]);
+	if (lines <= 0)
+	{
+		printf("error\n");
+		return (0);
+	}
+	printf("lines outout: %d\n", lines);
+	while (lines--)
+		printf("----Return: %d, String: %s\n", lines, ary[i++]);
 	return (0);
 }
