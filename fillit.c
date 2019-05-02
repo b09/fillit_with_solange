@@ -100,19 +100,23 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 
 	i = 0;
 	y = 0;
-	while (chr > 4)
+	while (chr > 2)
 	{
+		// printf("%s %d\n", *ary, y);
 		if ((*ary != 0) && (*ary)[y] == '#')
 		{
-			i = (((y < 3) && ((*ary)[y + 1] == '#'))) ? (i + 1) : i;
-			i = (((y > 0) && ((*ary)[y - 1] == '#'))) ? (i + 1) : i;
-			i = (((chr > 0) && ((*(ary + 1))[y] == '#'))) ? (i + 1) : i;
-			i = ((chr < (4 * lin - 3)) && ((*(ary - 1))[y] == '#')) ? i + 1 : i;
+			i += (((y < 3) && ((*ary)[y + 1] == '#'))) ? 1 : 0;
+			i += (((y > 0) && ((*ary)[y - 1] == '#'))) ? 1 : 0;
+			i += (((chr > 3) && ((*(ary + 1))[y] == '#'))) ? 1 : 0;
+			i += ((chr < (4 * lin - 3)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
 		ary = (y == 3 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
-		if (((chr / 4) % 20 == 0) && (i != 6) && (i != 8))
+		// if (((chr / 4) % 20 == 0) && (i != 6) && (i != 8))
+		if ((chr % 20 == 0) && (i != 6) && (i != 8))
 			return (0);
-		i = ((chr / 4) % 5 == 0) ? 0 : i;
+		// printf("check_tetr, i is: %d chr: %d lines: %d, y: %d   %d\n", i, chr, lin, y, chr % 20);
+		// i = ((chr / 4) % 5 == 0) ? 0 : i;
+		i = (chr % 20 == 0) ? 0 : i;
 		y = ((y < 3) || (ft_strlen(*ary) < 4)) ? (y + 1) : 0;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
 	}
@@ -122,9 +126,9 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 
 int		gnl_fillit(char *argv, char **ary)
 {
-	int			openfd;
-	int			nline;
-	int			chars;
+	int		openfd;
+	int		nline;
+	int		chars;
 
 	nline = 0;
 	openfd = open(argv, O_RDONLY);
@@ -140,24 +144,13 @@ int		gnl_fillit(char *argv, char **ary)
 		chars = (((nline + 1) % 5) == 0) ? 0 : chars;
 		++nline;
 	}
-	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4), ary)) || \
+	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4) - 1, ary)) || \
 		get_next_line(openfd, &ary[nline]))
-		return (0);
+			// printf("((nline + 1) \% 5) is: %d\n!(check_tetriminoe(nline, (nline * 4), ary)) is: %d\n", (nline + 1) % 5, check_tetriminoe(nline, (nline * 4), ary));
+			return (0);
 	close(openfd);
 	return (nline);
 }
-
-
-
-
-
-
-
-
-////************************************************ check all functions above line
-
-
-
 
 char	**create_grid(char **grid, int size)
 {
@@ -204,36 +197,34 @@ int		add_to_grid(char **ttrs, char **grid, int gx, int gy)
 	return (1);
 }
 
-int		check_tetrimino(char **ttrs, char **grid, int gsize, int gindx)
+int		check_tetrimino(char **ttrs, char **grid, int gs, int gi)
 {
 	int		x;
 	int		y;
-	int		lettercheck;
+	int		lttrs;
 
 	x = 0;
-	lettercheck = 0;
-	if ((gindx + 1) == (gsize * gsize))
+	lttrs = 0;
+	if ((gi + 1) == (gs * gs))
 		return (-1);
 	while (x < 4)
 	{
 		y = 0;
-		while (((((gindx / gsize) + x) < gsize) && (((gindx % gsize) \
-		+ y) < gsize)) && ((grid[((gindx / gsize) + x)][((gindx % \
-		gsize) + y)] == '.') || (ft_isalpha(grid[((gindx / gsize) + x)]\
-		[((gindx % gsize) + y)]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
+		while (((((gi / gs) + x) < gs) && (((gi % gs) + y) < gs)) && ((grid[\
+		((gi / gs) + x)][((gi % gs) + y)] == '.') || (ft_isalpha(grid[((gi / \
+		gs) + x)][((gi % gs) + y)]) && (ttrs[x][y] == '.'))) && ttrs[x][y] != 0)
 		{
-			lettercheck += (ft_isalpha(ttrs[x][y])) ? 1 : 0;
+			lttrs += (ft_isalpha(ttrs[x][y])) ? 1 : 0;
 			++y;
-			if (((gindx % gsize) + y) >= gsize)
+			if (((gi % gs) + y) >= gs)
 				break ;
 		}
-		if ((x == 3 && lettercheck != 4) || (((gindx % gsize) + y) == gsize \
-		&& ft_isalpha(ttrs[x][y - 1]) && grid[((gindx / gsize) + x)][((gindx \
-		% gsize) + y) - 1] != '.'))
+		if ((x == 3 && lttrs != 4) || (((gi % gs) + y) == gs && ft_isalpha(\
+		ttrs[x][y - 1]) && grid[((gi / gs) + x)][((gi % gs) + y) - 1] != '.'))
 			return (0);
 		++x;
 	}
-	return (add_to_grid(ttrs, grid, gindx / gsize, gindx % gsize));
+	return (add_to_grid(ttrs, grid, gi / gs, gi % gs));
 }
 
 int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
@@ -266,37 +257,34 @@ int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
 	return (y);
 }
 
-int		check_entire_list(char **ttrs, char **grid, int lines, int gindx)
+int		check_entire_list(char **ttrs, char **grid, int lines, int gi)
 {
 	int		ret;
-	int		gsize;
+	int		gs;
 
-	gsize = ft_strlen(grid[0]);
-	if (lines < 1)
-		return (1);
-	if ((pop_ttr(grid, ttrs, gsize, 1) == 'A') && (gindx >= gsize * gsize))
-		return (0);
-	while ((lines > 1) && (gindx < (gsize * gsize)))
+	gs = ft_strlen(grid[0]);
+	while ((lines > 1) && (gi < (gs * gs)))
 	{
-		printf("gindx %d, %c\n", gindx, pop_ttr(grid, ttrs, gsize, 1));
-		ret = check_tetrimino(ttrs, grid, gsize, gindx);
+		ret = check_tetrimino(ttrs, grid, gs, gi);
+		if ((pop_ttr(grid, ttrs, gs, 1) == 'A') && ((gi + 1) >= gs * gs))
+			return (0);
 		ttrs += (ret == 1) ? 5 : 0;
 		lines -= (ret == 1) ? 5 : 0;
-		gindx = (ret == 1) ? 0 : gindx;
-		gindx += (ret == 0) ? 1 : 0;
+		gi = (ret == 1) ? 0 : gi;
+		gi += (ret == 0) ? 1 : 0;
 		if (ret == -1)
 		{
 			ttrs -= 5;
 			lines += 5;
-			gindx = 1 + pop_ttr(grid, ttrs, gsize, 0);
+			gi = 1 + pop_ttr(grid, ttrs, gs, 0);
 		}
 	}
-	return(check_entire_list(ttrs, grid, lines, gindx));
+	return (1);
 }
 
 int		ft_sqrt(int nb)
 {
-	int i;
+	int		i;
 
 	i = 2;
 	if (nb < 1)
@@ -311,7 +299,7 @@ int		ft_sqrt(int nb)
 
 void	delete_grid(char **grid, int size)
 {
-	int 	x;
+	int		x;
 
 	x = 0;
 	while (x < size)
@@ -324,37 +312,35 @@ void	delete_grid(char **grid, int size)
 int		main(int argc, char *argv[])
 {
 	char		*ary[130];
-	int			lines = gnl_fillit(argv[1], ary);
-	int			i = 0;
+	int			lines;
+	int			i;
 	char		**grid;
-	int			lines2 = lines;
 	int			size;
 
-	if (lines > 0)
-	{
-		size = 4 * (lines / 5) + 1;
-		// size = ft_sqrt(size);
-		size = 5;
-		grid = create_grid(grid, size);
-		i = 0;
-		while (i < size)
-			printf("----i: %d, String: %s\n", i, grid[i++]);
-		while (check_entire_list(ary, grid, lines2, 0) == 0)
-		{
-			delete_grid(grid, size);
-			++size;
-			grid = create_grid(grid, size);
-		}
-		i = 0;
-		while (i < size)
-			printf("----i: %d, String: %s\n", i, grid[i++]);
-	}
+	lines = gnl_fillit(argv[1], ary);
 	if (lines <= 0)
 	{
-		printf("error\n");
+		printf("error code:%d\n", lines);
 		return (0);
 	}
+	size = 4 * (lines / 5) + 1;
+	size = ft_sqrt(size);
+	grid = create_grid(grid, size);
+	// i = 0;
+	// while (i < size)
+	// 	printf("----i: %d, String: %s\n", i, grid[i++]);
+	while (check_entire_list(ary, grid, lines, 0) == 0)
+	{
+		delete_grid(grid, size);
+		++size;
+		grid = create_grid(grid, size);
+	}
+	i = 0;
+	while (i < size)
+		printf("----i: %d, String: %s\n", i, grid[i++]);
+	
 	printf("lines outout: %d\n", lines);
+	i = 0;
 	while (lines--)
 		printf("----Return: %d, String: %s\n", lines, ary[i++]);
 	return (0);
