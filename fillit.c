@@ -110,9 +110,8 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 			i += ((chr < (4 * lin - 3)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
 		ary = (y == 3 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
-		if ((chr % 20 == 0) && (i != 6) && (i != 8))
+		if ((chr % 20 == 0) && (i % 6) && (i % 8))
 			return (0);
-		i = (chr % 20 == 0) ? 0 : i;
 		y = ((y < 3) || (ft_strlen(*ary) < 4)) ? (y + 1) : 0;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
 	}
@@ -140,9 +139,9 @@ int		gnl_fillit(char *argv, char **ary)
 		chars = (((nline + 1) % 5) == 0) ? 0 : chars;
 		++nline;
 	}
-	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4) - 1, ary)) || \
-		get_next_line(openfd, &ary[nline]))
-			return (0);
+	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4) - 1, ary)) \
+	|| get_next_line(openfd, &ary[nline]))
+		return (0);
 	close(openfd);
 	return (nline);
 }
@@ -211,8 +210,6 @@ int		check_tetrimino(char **ttrs, char **grid, int gs, int gi)
 		{
 			lttrs += (ft_isalpha(ttrs[x][y])) ? 1 : 0;
 			++y;
-			if (((gi % gs) + y) >= gs)
-				break ;
 		}
 		if ((x == 3 && lttrs != 4) || (((gi % gs) + y) == gs && ft_isalpha(\
 		ttrs[x][y - 1]) && grid[((gi / gs) + x)][((gi % gs) + y) - 1] != '.'))
@@ -229,25 +226,21 @@ int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
 	int		y;
 
 	x = 0;
-	y = 0;
 	while (ttrs[x][0] == 0 || ttrs[x][0] == '.')
 		++x;
-	if (ft_isalpha(ttrs[x][0]))
+	letter = ttrs[x][0];
+	if (check)
+		return (letter);
+	y = 1000;
+	x = 0;
+	while ((x + 1) <= (gridsize * gridsize))
 	{
-		letter = ttrs[x][0];
-		if (check)
-			return (letter);
-		y = 1000;
-		x = 0;
-		while ((x + 1) <= (gridsize * gridsize))
+		if (grid[x / gridsize][x % gridsize] == letter)
 		{
-			if (grid[x / gridsize][x % gridsize] == letter)
-			{
-				grid[x / gridsize][x % gridsize] = '.';
-				y = (x < y) ? x : y;
-			}
-			++x;
+			grid[x / gridsize][x % gridsize] = '.';
+			y = (x < y) ? x : y;
 		}
+		++x;
 	}
 	return (y);
 }
