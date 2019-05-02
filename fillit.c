@@ -183,7 +183,7 @@ char	**create_grid(char **grid, int size)
 	return (grid);
 }
 
-void	add_to_grid(char **ttrs, char **grid, int gx, int gy)
+int		add_to_grid(char **ttrs, char **grid, int gx, int gy)
 {
 	int		x;
 	int		y;
@@ -201,111 +201,92 @@ void	add_to_grid(char **ttrs, char **grid, int gx, int gy)
 			x++;
 		}
 	}
+	return (1);
 }
 
-int		check_tetrimino(char **ttrs, char **grid, int gridsize, int indexgrid)
+int		check_tetrimino(char **ttrs, char **grid, int gsize, int gindx)
 {
-	int		gx;
-	int		gy;
 	int		x;
 	int		y;
-	int		check;
 	int		lettercheck;
 
 	x = 0;
 	lettercheck = 0;
-	check = 0;
-	while (x < 4 && !check)
+	if ((gindx + 1) == (gsize * gsize))
+		return (-1);
+	while (x < 4)
 	{
 		y = 0;
-		gx = (indexgrid / gridsize) + x;
-		gy = (indexgrid % gridsize) + y;
-		printf("x: %d, lettercheck: %d, gx:%d, gy:%d, indexgrid:%d, tetrisline: %s\n", x, lettercheck, gx, gy, indexgrid, ttrs[x]);
-		while (((gx < gridsize) && (gy < gridsize)) && ((grid[gx][gy] == '.') || \
-		(ft_isalpha(grid[gx][gy]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
+		while (((((gindx / gsize) + x) < gsize) && (((gindx % gsize) \
+		+ y) < gsize)) && ((grid[((gindx / gsize) + x)][((gindx % \
+		gsize) + y)] == '.') || (ft_isalpha(grid[((gindx / gsize) + x)]\
+		[((gindx % gsize) + y)]) && (ttrs[x][y] == '.' ))) && (ttrs[x][y] != 0))
 		{
 			lettercheck += (ft_isalpha(ttrs[x][y])) ? 1 : 0;
 			++y;
-			gy = (indexgrid % gridsize) + y;
-			if (gy >= gridsize)
+			if (((gindx % gsize) + y) >= gsize)
 				break ;
 		}
-		check = ((indexgrid + 1) == (gridsize * gridsize)) ? 1 : 0;
-		if (!check && ((x == 3 && lettercheck != 4) || (gy == gridsize && ft_isalpha(ttrs[x][y - 1]) && grid[gx][gy - 1] != '.')))
+		if ((x == 3 && lettercheck != 4) || (((gindx % gsize) + y) == gsize \
+		&& ft_isalpha(ttrs[x][y - 1]) && grid[((gindx / gsize) + x)][((gindx \
+		% gsize) + y) - 1] != '.'))
 			return (0);
 		++x;
 	}
-	if (check)
-		return (-1);
-	add_to_grid(ttrs, grid, indexgrid / gridsize, indexgrid % gridsize);
-	x = 0;
-	while(x < gridsize)
-		printf("%s\n", grid[x++]);
-	return (1);
+	return (add_to_grid(ttrs, grid, gindx / gsize, gindx % gsize));
 }
 
-int		delete_tetrimino(char **grid, char **ttrs, int gridsize, int check)
+int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
 {
 	char	letter;
 	int		x;
 	int		y;
 
 	x = 0;
-	y = 0;
-	while (x < 4)
-	{
-		if (ft_isalpha(ttrs[x][y]))
-		{
-			letter = ttrs[x][y];
-			if (check)
-				return (letter);
-			break ;
-		}
-		y = (ttrs[x][y] != 0) ? -1 : y;
-		x += (y == -1) ? 1 : 0;
-		y++;
-	}
+	while (!(ft_isalpha(ttrs[x][0])))
+		++x;
+	letter = ttrs[x][0];
+	if (check)
+		return (letter);
 	x = 0;
 	y = 1000;
-	if (letter)
+	while ((x + 1) <= (gridsize * gridsize))
 	{
-		while ((x + 1) <= (gridsize * gridsize))
+		if (grid[x / gridsize][x % gridsize] == letter)
 		{
-			if (grid[x / gridsize][x % gridsize] == letter)
-			{
-				grid[x / gridsize][x % gridsize] = '.';
-				y = (x < y) ? x : y;
-			}
-			++x;
+			grid[x / gridsize][x % gridsize] = '.';
+			y = (x < y) ? x : y;
 		}
+		++x;
 	}
-	x = 0;
-	while (x < gridsize)
-		printf("%s\n", grid[x++]);
 	return (y);
 }
-// determine how to return 0 when no tetrimino fit
-int		check_entire_list(char **ttrs, char **grid, int lines, int indexgrid)
+
+int		check_entire_list(char **ttrs, char **grid, int lines, int gindx)
 {
 	int		ret;
+	int		gsize;
 
-	int gridsize = ft_strlen(grid[0]);
+	gsize = ft_strlen(grid[0]);
 	if (lines < 1)
 		return (1);
-	if ((delete_tetrimino(grid, ttrs, gridsize, 1) == 'A') && ((indexgrid + 1) == (gridsize * gridsize)))
+	if ((pop_ttr(grid, ttrs, gsize, 1) == 'A') && (gindx + 1 == gsize * gsize))
 		return (0);
-	ret = check_tetrimino(ttrs, grid, gridsize, indexgrid);
-	ttrs += (ret == 1) ? 5 : 0;
-	lines -= (ret == 1) ? 5 : 0;
-	indexgrid = (ret == 1) ? 0 : indexgrid;
-	indexgrid += (ret == 0) ? 1 : 0;
-	if (ret == -1)
+	while (lines > 1)
 	{
-		ttrs -= 5;
-		lines += 5;
-		indexgrid = 1 + delete_tetrimino(grid, ttrs, gridsize, 0);
+		ret = check_tetrimino(ttrs, grid, gsize, gindx);
+		ttrs += (ret == 1) ? 5 : 0;
+		lines -= (ret == 1) ? 5 : 0;
+		gindx = (ret == 1) ? 0 : gindx;
+		gindx += (ret == 0) ? 1 : 0;
+		if (ret == -1)
+		{
+			ttrs -= 5;
+			lines += 5;
+			gindx = 1 + pop_ttr(grid, ttrs, gsize, 0);
+		}
 	}
-	return(check_entire_list(ttrs, grid, lines, indexgrid));
+	return(check_entire_list(ttrs, grid, lines, gindx));
 }
 
 int		ft_sqrt(int nb)
@@ -328,7 +309,7 @@ void	delete_grid(char **grid, int size)
 	int 	x;
 
 	x = 0;
-	while(x < size)
+	while (x < size)
 	{
 		free(grid[x]);
 		++x;
@@ -353,14 +334,14 @@ int		main(int argc, char *argv[])
 	printf("lines outout: %d\n", lines);
 	// while (lines--)
 	// 	printf("----Return: %d, String: %s\n", lines, ary[i++]);
-	// while (check_entire_list(ary, grid, lines2, 0) == 0)
-	// {
-	// 	delete_grid(grid, size);
-	// 	++size;
-	// 	grid = create_grid(grid, size);
-	// }
-	// i = 0;
-	// while (i < size)
-	// 	printf("----i: %d, String: %s\n", i, grid[i++]);
+	while (check_entire_list(ary, grid, lines2, 0) == 0)
+	{
+		delete_grid(grid, size);
+		++size;
+		grid = create_grid(grid, size);
+	}
+	i = 0;
+	while (i < size)
+		printf("----i: %d, String: %s\n", i, grid[i++]);
 	return (0);
 }
