@@ -102,7 +102,6 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 	y = 0;
 	while (chr > 2)
 	{
-		// printf("%s %d\n", *ary, y);
 		if ((*ary != 0) && (*ary)[y] == '#')
 		{
 			i += (((y < 3) && ((*ary)[y + 1] == '#'))) ? 1 : 0;
@@ -111,11 +110,8 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 			i += ((chr < (4 * lin - 3)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
 		ary = (y == 3 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
-		// if (((chr / 4) % 20 == 0) && (i != 6) && (i != 8))
 		if ((chr % 20 == 0) && (i != 6) && (i != 8))
 			return (0);
-		// printf("check_tetr, i is: %d chr: %d lines: %d, y: %d   %d\n", i, chr, lin, y, chr % 20);
-		// i = ((chr / 4) % 5 == 0) ? 0 : i;
 		i = (chr % 20 == 0) ? 0 : i;
 		y = ((y < 3) || (ft_strlen(*ary) < 4)) ? (y + 1) : 0;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
@@ -146,7 +142,6 @@ int		gnl_fillit(char *argv, char **ary)
 	}
 	if (((nline + 1) % 5) || !(check_tetriminoe(nline, (nline * 4) - 1, ary)) || \
 		get_next_line(openfd, &ary[nline]))
-			// printf("((nline + 1) \% 5) is: %d\n!(check_tetriminoe(nline, (nline * 4), ary)) is: %d\n", (nline + 1) % 5, check_tetriminoe(nline, (nline * 4), ary));
 			return (0);
 	close(openfd);
 	return (nline);
