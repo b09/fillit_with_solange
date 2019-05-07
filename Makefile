@@ -5,30 +5,35 @@
 #                                                      +:+                     #
 #    By: bprado <bprado@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
-#    Created: 2019/01/29 17:19:55 by bprado        #+#    #+#                  #
-#    Updated: 2019/01/30 17:06:21 by bprado        ########   odam.nl          #
+#    Created: 2019/01/29 17:19:55 by bprado         #+#    #+#                 #
+#    Updated: 2019/05/07 19:25:46 by svan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fillit.a
+NAME = fillit
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = 	
+SRC = input_check_fill.c solver.c fillit.c main.c 
+
+LIB = ./libft
+
+HDR = ./fillit.h
 
 OBJ += $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): 
-		gcc $(FLAGS) -c $(SRC) -I ./includes
-		ar rcs $(NAME) $(OBJ)
-
-
+		make -C $(LIB)
+		gcc -o $(NAME) $(SRC) -I $(HDR) $(LIB)/libft.a $(FLAGS)
+		
 clean:
 		rm -f $(OBJ)
-
-fclean: clean
+		make -C $(LIB) clean
+	
+fclean: clean	
 		rm -rf $(NAME)
+		make -C $(LIB) fclean
 
 re: fclean all
