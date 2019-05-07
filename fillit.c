@@ -107,7 +107,7 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 			i += (((y < 3) && ((*ary)[y + 1] == '#'))) ? 1 : 0;
 			i += (((y > 0) && ((*ary)[y - 1] == '#'))) ? 1 : 0;
 			i += (((chr > 3) && ((*(ary + 1))[y] == '#'))) ? 1 : 0;
-			i += ((chr < (4 * lin - 3)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
+			i += ((chr < (4 * lin - 4)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
 		ary = (y == 3 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
 		if ((chr % 20 == 0) && (i % 6) && (i % 8))
@@ -116,6 +116,25 @@ int		check_tetriminoe(int lin, int chr, char **ary)
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
 	}
 	change_to_letter((ary - lin + 1), lin, lin);
+	return (1);
+}
+
+int		check_last_characters(char *argv)
+{
+	int		fd;
+	char	buf[546];
+	int		index;
+
+	fd = open(argv, O_RDONLY);
+	index = read(fd, buf, 546);
+	close(fd);
+	buf[index] = 0;
+	if (index == 546)
+		return (0);
+	if (buf[index - 1] != '\n')
+		return (0);
+	if (buf[index - 2] != '.' && buf[index - 2] != '#')
+		return (0);
 	return (1);
 }
 
@@ -143,6 +162,8 @@ int		gnl_fillit(char *argv, char **ary)
 	|| get_next_line(openfd, &ary[nline]))
 		return (0);
 	close(openfd);
+	if (!check_last_characters(argv))
+		return (0);
 	return (nline);
 }
 
@@ -239,6 +260,8 @@ int		pop_ttr(char **grid, char **ttrs, int gridsize, int check)
 		{
 			grid[x / gridsize][x % gridsize] = '.';
 			y = (x < y) ? x : y;
+			if ((x % gridsize) < (y % gridsize))
+				y = y - ((y % gridsize) - (x % gridsize));
 		}
 		++x;
 	}
