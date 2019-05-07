@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: bprado <bprado@student.codam.nl>             +#+                      #
-#                                                    +#+                       #
-#    Created: 2019/01/29 17:19:55 by bprado         #+#    #+#                 #
-#    Updated: 2019/05/07 19:25:46 by svan-der      ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: bprado <bprado@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/01/29 17:19:55 by bprado            #+#    #+#              #
+#    Updated: 2019/05/07 20:15:24 by bprado           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fillit
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = input_check_fill.c solver.c fillit.c main.c 
+SRC = validate.c solver.c helpers.c transform_tetri.c main.c 
 
 LIB = ./libft
 
