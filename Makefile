@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: bprado <bprado@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/01/29 17:19:55 by bprado            #+#    #+#              #
-#    Updated: 2019/05/07 20:15:24 by bprado           ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: bprado <bprado@student.42.fr>                +#+                      #
+#                                                    +#+                       #
+#    Created: 2019/01/29 17:19:55 by bprado         #+#    #+#                 #
+#    Updated: 2019/05/08 11:52:13 by svan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fillit
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = validate.c solver.c helpers.c transform_tetri.c main.c 
+SRC = validate.c solver.c grid.c transform_tetri.c main.c 
 
 LIB = ./libft
 

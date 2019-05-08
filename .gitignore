@@ -6,3 +6,7 @@ a.out
 Fillit_test.c
 solve.c
 a.out.*
+mainNotes.c
+tetrimoes/*.txt
+a.out.dSYM/Contents/Info.plist
+a.out.dSYM/Contents/Resources/DWARF/a.out
