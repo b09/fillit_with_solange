@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/25 14:24:56 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 13:34:12 by svan-der      ########   odam.nl         */
+/*   Updated: 2019/05/08 15:40:11 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ char	**create_grid(int size)
 	while (x < size)
 	{
 		grid[x] = (char*)malloc(size + 1);
+		grid[x][size] = '\0';
 		y = 0;
 		while (y < size)
 		{
 			grid[x][y] = '.';
 			++y;
-			if (y == size)
-				grid[x][y] = '\0';
 		}
 		++x;
 	}

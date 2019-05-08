@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:47 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 13:36:27 by svan-der      ########   odam.nl         */
+/*   Updated: 2019/05/08 18:13:50 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int		main(int argc, char *argv[])
 
 	lines = gnl_fillit(argv[1], ary);
 	if (argc != 2)
+	{
 		ft_putstr("usage: ./fillit input_file\n");
+		return (0);
+	}
 	if (lines <= 0)
 	{
 		ft_putstr("error\n");
@@ -30,7 +33,7 @@ int		main(int argc, char *argv[])
 	}
 	size = 4 * (lines / 5) + 1;
 	size = ft_sqrt(size);
-	grid = create_grid(size + 2);
+	grid = create_grid(size);
 	while (check_entire_list(ary, grid, lines, 0) == 0)
 	{
 		delete_grid(grid, size);
@@ -38,5 +41,6 @@ int		main(int argc, char *argv[])
 		grid = create_grid(size);
 	}
 	print_grid(grid, size);
+	delete_grid(grid, size);
 	return (0);
 }

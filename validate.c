@@ -6,11 +6,12 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:16 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 14:02:01 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/08 17:52:59 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+// line 33: if ((chr % 20 == 0) && (((i % 6) != 0) || ((i % 8) != 0)))
 
 int		check_lines(int lin, int chr, char **ary)
 {
@@ -19,7 +20,7 @@ int		check_lines(int lin, int chr, char **ary)
 
 	i = 0;
 	y = 0;
-	while (chr > 2)
+	while (chr > 0)
 	{
 		if ((*ary != 0) && (*ary)[y] == '#')
 		{
@@ -28,13 +29,16 @@ int		check_lines(int lin, int chr, char **ary)
 			i += (((chr > 3) && ((*(ary + 1))[y] == '#'))) ? 1 : 0;
 			i += ((chr < (4 * lin - 4)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
-		ary = (y == 3 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
-		if ((chr % 20 == 0) && (i % 6) && (i % 8))
-			return (0);
-		y = ((y < 3) || (ft_strlen(*ary) < 4)) ? (y + 1) : 0;
+		// printf("i is :%d chr: %d y is: %d, string:%s char: %c\n", i, chr, y, *ary, ary[0][y]);
+		i = ((chr % 20) == 0) ? 0 : i;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
+		y = ((y < 3) && (ft_strlen(*ary) == 4)) ? (y + 1) : 0;
+		ary = (y == 0 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
+		if (((chr % 20 == 0) && i != 6) && ((chr % 20 == 0) && i != 8))
+			return (0);
 	}
-	change_to_letter((ary - lin + 1), lin, lin);
+	// printf("ANOTHER i is :%d chr: %d result of chr mod 20: %d\n", i, chr, chr % 20);
+	change_to_letter((ary - lin), lin, lin);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:26 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 14:02:34 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/08 19:06:53 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int		add_to_grid(char **ttrs, char **grid, int gx, int gy)
 	y = 0;
 	while (x < 4)
 	{
+		while (!ft_strlen(*ttrs))
+			++ttrs;
 		if (ft_isalpha(ttrs[x][y]))
 			grid[gx + x][gy + y] = ttrs[x][y];
 		++y;
