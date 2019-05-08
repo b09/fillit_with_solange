@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:29:02 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 12:12:25 by svan-der      ########   odam.nl         */
+/*   Updated: 2019/05/08 13:41:46 by svan-der      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ void			remove_excess_dots_two(char **ary, int lines, int low, int high);
 void			change_to_letter(char **ary, int lines, int lines2);
 void			remove_excess_dots(char **ary, int low, int high);
 void			delete_grid(char **grid, int size);
+void            print_grid(char **grid, int size);
 
 #endif

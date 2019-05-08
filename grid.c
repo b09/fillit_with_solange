@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/25 14:24:56 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 12:16:48 by svan-der      ########   odam.nl         */
+/*   Updated: 2019/05/08 13:34:12 by svan-der      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,17 @@ void	delete_grid(char **grid, int size)
 		++x;
 	}
 	free(grid);
+}
+
+void	print_grid(char **grid, int size)
+{
+	int		y;
+
+	y = 0;
+	while (y < size)
+	{
+		ft_putstr(grid[y]);
+		ft_putstr("\n");
+		y++;
+	}
 }
