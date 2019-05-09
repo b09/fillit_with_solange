@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:29:02 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 13:41:46 by svan-der      ########   odam.nl         */
+/*   Updated: 2019/05/09 01:52:08 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 char			**create_grid(int size);
 int				gnl_fillit(char *argv, char **ary);
 int				add_to_grid(char **ttrs, char **grid, int gx, int gy);
-int				ft_sqrt(int nb);
 int				lnchk(char *str);
 int				check_last_characters(char *argv);
 int				check_lines(int lin, int chr, char **ary);

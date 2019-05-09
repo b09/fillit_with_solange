@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:26 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 18:12:56 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/09 00:56:18 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ void	change_to_letter(char **ary, int lines, int lines2)
 
 	index = 0;
 	letter = 'A';
-	while (lines > 1)
+	while (lines > 0)
 	{
+		// printf("lines: %d, ary: %s\n", lines, *ary);
 		if ((ary[0][(index % 4)]) == '#')
 			ary[0][(index % 4)] = letter;
 		index += (ft_strlen(*ary)) ? 1 : 4;
@@ -28,7 +29,7 @@ void	change_to_letter(char **ary, int lines, int lines2)
 		lines = (index % 4) ? lines : (lines - 1);
 		letter = (index % 20) ? letter : (letter + 1);
 	}
-	remove_excess_dots_two(ary, lines2 - 1, 4, 0);
+	remove_excess_dots_two(ary, lines2, 4, 0);
 }
 
 void	remove_excess_dots_two(char **ary, int lines, int low, int high)
@@ -47,9 +48,9 @@ void	remove_excess_dots_two(char **ary, int lines, int low, int high)
 			}
 			++i;
 		}
-		if (!(lines % 5))
+		if ((lines % 5) == 0)
 		{
-			remove_excess_dots(&ary[-(lines + 3)], low, high);
+			remove_excess_dots(&ary[-(lines + 4)], low, high);
 			low = 4;
 			high = 0;
 		}

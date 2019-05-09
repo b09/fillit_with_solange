@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:16 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 17:52:59 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/09 00:54:01 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int		check_lines(int lin, int chr, char **ary)
 			i += (((chr > 3) && ((*(ary + 1))[y] == '#'))) ? 1 : 0;
 			i += ((chr < (4 * lin - 4)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
-		// printf("i is :%d chr: %d y is: %d, string:%s char: %c\n", i, chr, y, *ary, ary[0][y]);
 		i = ((chr % 20) == 0) ? 0 : i;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
 		y = ((y < 3) && (ft_strlen(*ary) == 4)) ? (y + 1) : 0;
@@ -37,7 +36,6 @@ int		check_lines(int lin, int chr, char **ary)
 		if (((chr % 20 == 0) && i != 6) && ((chr % 20 == 0) && i != 8))
 			return (0);
 	}
-	// printf("ANOTHER i is :%d chr: %d result of chr mod 20: %d\n", i, chr, chr % 20);
 	change_to_letter((ary - lin), lin, lin);
 	return (1);
 }

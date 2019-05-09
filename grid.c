@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/25 14:24:56 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/08 15:40:11 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/09 01:57:09 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,6 @@ char	**create_grid(int size)
 		++x;
 	}
 	return (grid);
-}
-
-int		ft_sqrt(int nb)
-{
-	int		i;
-
-	i = 2;
-	if (nb < 1)
-		return (0);
-	while (i * i < nb)
-		i++;
-	if (i * i >= nb)
-		return (i);
-	else
-		return (0);
 }
 
 void	delete_grid(char **grid, int size)
