@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:47 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/09 01:57:14 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/09 23:25:37 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int		main(int argc, char *argv[])
 	}
 	size = 2;
 	grid = create_grid(size);
-	// i = 0;
-	// while (i < lines)
-	// 	printf("%s\n", ary[i++]);
+	int i = 0;
+	while (i < lines)
+		printf("%s\n", ary[i++]);
 	while (check_entire_list(ary, grid, lines, 0) == 0)
 	{
 		delete_grid(grid, size);

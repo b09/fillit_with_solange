@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:06:16 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/09 00:54:01 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/10 01:14:19 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int		check_lines(int lin, int chr, char **ary)
 			i += (((chr > 3) && ((*(ary + 1))[y] == '#'))) ? 1 : 0;
 			i += ((chr < (4 * lin - 4)) && ((*(ary - 1))[y] == '#')) ? 1 : 0;
 		}
-		i = ((chr % 20) == 0) ? 0 : i;
 		chr = (ft_strlen(*ary) < 4) ? (chr - 4) : (chr - 1);
 		y = ((y < 3) && (ft_strlen(*ary) == 4)) ? (y + 1) : 0;
 		ary = (y == 0 || ft_strlen(*ary) < 4) ? (ary + 1) : ary;
-		if (((chr % 20 == 0) && i != 6) && ((chr % 20 == 0) && i != 8))
+		printf("i: %d  chr%%20: %d  lines: %d char: %d *ary: %s\n", i, chr % 20, lin, chr, *ary);
+		if ((((chr - 1) % 20 == 0) && i != 6) && ((chr % 20 == 0) && i != 8))
 			return (0);
+		i = ((chr % 20) == 0) ? 0 : i;
 	}
 	change_to_letter((ary - lin), lin, lin);
 	return (1);
@@ -60,7 +61,7 @@ int		gnl_fillit(char *argv, char **ary)
 		chars = (((nline + 1) % 5) == 0) ? 0 : chars;
 		++nline;
 	}
-	if (((nline + 1) % 5) || !(check_lines(nline, (nline * 4) - 1, ary)) \
+	if (((nline + 1) % 5) || !(check_lines(nline, (nline * 4), ary)) \
 	|| get_next_line(openfd, &ary[nline]))
 		return (0);
 	close(openfd);

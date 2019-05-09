@@ -5,8 +5,8 @@
 #                                                      +:+                     #
 #    By: bprado <bprado@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
-#    Created: 2019/01/29 17:19:55 by bprado        #+#    #+#                  #
-#    Updated: 2019/01/30 17:06:21 by bprado        ########   odam.nl          #
+#    Created: 2019/01/29 17:19:55 by bprado         #+#    #+#                 #
+#    Updated: 2019/05/09 20:45:53 by bprado        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC = 	ft_atoi.c \
 		ft_atoi_base.c \
 		ft_bzero.c \
 		ft_isalnum.c \
- 		ft_isalpha.c \
+ 		ft_isa.c \
  		ft_isascii.c \
  		ft_isdigit.c \
  		ft_isprint.c \
@@ -83,7 +83,7 @@ OBJ = 	ft_atoi.o \
 		ft_atoi_base.o \
 		ft_bzero.o \
 		ft_isalnum.o \
- 		ft_isalpha.o \
+ 		ft_isa.o \
  		ft_isascii.o \
  		ft_isdigit.o \
  		ft_isprint.o \

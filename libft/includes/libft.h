@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/01/29 17:27:40 by bprado        #+#    #+#                 */
-/*   Updated: 2019/01/30 18:18:32 by bprado        ########   odam.nl         */
+/*   Created: 2019/01/29 17:27:40 by bprado         #+#    #+#                */
+/*   Updated: 2019/05/09 20:45:32 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct		s_list
 int					ft_atoi(const char *str);
 int					ft_atoi_base(const char *str, int str_base);
 int					ft_isalnum(int c);
-int					ft_isalpha(int c);
+int					ft_isa(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
