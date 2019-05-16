@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/15 13:35:04 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/16 23:41:09 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/17 00:22:22 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,13 @@ void	shorten_index(char **ttrs)
 }
 
 // reassign ttrs lines (each ttrs[i] was ...#\n...#\n...#\n...#\n\0) into
-// x and y coordinates. the first value is the letter, following four pairs of x y.
-// the above example for letter 'A' would be ttrs[0] == 65, 0 3, 1 3, 2 3, 3 3
+// x and y coordinates. the first value is the letter, following four pairs of coords.
+// the above example for ttr of letter 'A' would be ttrs[0] == 65, 0 3, 1 3, 2 3, 3 3.
+// something odd about this code is that the contents of buf[z] need to be increased 
+// by one to ensure that ft_strcpy works, and it's great because shorten_index() 
+// is called right after with the contents of buf now copied back to ttr, and the 
+// the second while loop would have needed to subract y_low and x_low by one, like this
+// ttrs[y][x] -= (y_low - 1);		but now there's no need
 void	hash_coordinates(char **ttrs)
 {
 	int y;

@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/15 13:25:46 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/16 23:40:41 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/17 00:22:57 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		main(int argc, char *argv[])
 {
 	char 	*ttrs[27];
-	char 	**grid;
+	// char 	**grid;
 	int 	i;
 
 	i = 0;
@@ -56,10 +56,10 @@ int		main(int argc, char *argv[])
 
 
 
-	// print current grid
-	i = 0;
-	while (grid[i] != NULL)
-		printf("%s\n", grid[i++]);
+	// // print current grid
+	// i = 0;
+	// while (grid[i] != NULL)
+	// 	printf("%s\n", grid[i++]);
 
 
 	return (0);
