@@ -6,28 +6,30 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:29:02 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/09 01:52:08 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/16 22:00:57 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 
+# include <fcntl.h>
 # include "libft/includes/libft.h"
+# include <unistd.h>
+# include <stdio.h>
 
-char			**create_grid(int size);
-int				gnl_fillit(char *argv, char **ary);
-int				add_to_grid(char **ttrs, char **grid, int gx, int gy);
-int				lnchk(char *str);
-int				check_last_characters(char *argv);
-int				check_lines(int lin, int chr, char **ary);
-int				pop_ttr(char **grid, char **ttrs, int gridsize, int check);
-int				check_ttr(char **ttrs, char **grid, int gs, int gi);
-int				check_entire_list(char **ttrs, char **grid, int lines, int gi);
-void			remove_excess_dots_two(char **ary, int lines, int low, int high);
-void			change_to_letter(char **ary, int lines, int lines2);
-void			remove_excess_dots(char **ary, int low, int high);
-void			delete_grid(char **grid, int size);
-void            print_grid(char **grid, int size);
+int     read_file(char *argv[], char **ttrs);
+void	populate_buff(char *buff, char **ttr);
+void	delete_ttr(char **ttrs);
+int 	newline_chk(char **ttrs);
+int		char_chk(char **ttrs);
+int		valid_ttr(char **ttrs);
+void	hash_locations(char **ttrs);
+void	shorten_index(char **ttrs);
+void	hash_to_letter(char **ttrs);
+int		check_tetriminoe(char **map, int x_map, int y_map, char *ttr);
+int		add_tetriminoe(char **map, int x_map, int y_map, char *ttr);
+char	**create_grid(int size);
+void	populate_grid(char **grid, int size);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bprado <bprado@student.42.fr>                +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/01/29 17:19:55 by bprado         #+#    #+#                 #
-#    Updated: 2019/05/08 19:25:33 by bprado        ########   odam.nl          #
+#    Updated: 2019/05/16 17:35:58 by bprado        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fillit
 
 FLAGS = -Wall -Wextra -Werror -g
 
-SRC = validate.c solver.c grid.c transform_tetri.c main.c 
+SRC = fillit.c main.c 
 
 LIB = ./libft
 

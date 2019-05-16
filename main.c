@@ -3,48 +3,59 @@
 /*                                                        ::::::::            */
 /*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bprado <bprado@student.42.fr>                +#+                     */
+/*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/07 20:06:47 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/09 23:25:37 by bprado        ########   odam.nl         */
+/*   Created: 2019/05/15 13:25:46 by bprado         #+#    #+#                */
+/*   Updated: 2019/05/16 22:07:57 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 
 int		main(int argc, char *argv[])
 {
-	char		*ary[130];
-	int			lines;
-	char		**grid;
-	int			size;
-	// int			i;
+	char 	*ttrs[27];
+	char 	**grid;
+	int 	i;
+	int		ret;
 
-	// printf("yo\n");
-	lines = gnl_fillit(argv[1], ary);
+	i = 0;
+	
+	printf("return : %d\n", read_file(argv, ttrs));
 	if (argc != 2)
-	{
-		ft_putstr("usage: ./fillit input_file\n");
 		return (0);
-	}
-	if (lines <= 0)
+
+	// if (fillit(argv, ttrs) < 0)
+	// 	delete_ttr(ttrs);
+	hash_to_letter(ttrs);
+	hash_locations(ttrs);
+	shorten_index(ttrs);
+	grid = create_grid(4);
+	populate_grid(grid, 4);
+	if ((ret = check_tetriminoe(grid, 0, 0, ttrs[0])))
+		add_tetriminoe(grid, 0, 0, ttrs[0]);
+
+	int j;
+	while (ttrs[i] != NULL)
 	{
-		ft_putstr("error\n");
-		return (0);
+		j = 0;
+		while (j < 9)
+			printf("%d ", ttrs[i][j++]);
+		++i;
+		printf("\n");
 	}
-	size = 2;
-	grid = create_grid(size);
-	int i = 0;
-	while (i < lines)
-		printf("%s\n", ary[i++]);
-	while (check_entire_list(ary, grid, lines, 0) == 0)
-	{
-		delete_grid(grid, size);
-		++size;
-		grid = create_grid(size);
-	}
-	print_grid(grid, size);
-	delete_grid(grid, size);
+
+	i = 0;
+	while (grid[i] != NULL)
+		printf("%s\n", grid[i++]);
+	printf("ret is: %d\n", ret);
+
+	// if (!valid_ttr(ttrs))
+	// 	printf("not right nwlcheck\n");
 	return (0);
 }
+
+// validation: 
+// only '.' & '#'
+// character count 
+
