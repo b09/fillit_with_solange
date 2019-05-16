@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:29:02 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/16 22:00:57 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/16 23:40:57 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	delete_ttr(char **ttrs);
 int 	newline_chk(char **ttrs);
 int		char_chk(char **ttrs);
 int		valid_ttr(char **ttrs);
-void	hash_locations(char **ttrs);
+void	hash_coordinates(char **ttrs);
 void	shorten_index(char **ttrs);
 void	hash_to_letter(char **ttrs);
 int		check_tetriminoe(char **map, int x_map, int y_map, char *ttr);
 int		add_tetriminoe(char **map, int x_map, int y_map, char *ttr);
 char	**create_grid(int size);
-void	populate_grid(char **grid, int size);
+void	remove_ttr(char **map, char letter);
 
 #endif

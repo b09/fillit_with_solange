@@ -6,46 +6,74 @@
 /*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/15 13:35:04 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/16 22:16:48 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/16 23:41:09 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int		solve_map(char **map, char **ttrs, int index) 
-{
-	int x;
-	int y;
+// int		solve_map(char **map, char **ttrs, int index) 
+// {
+// 	int x;
+// 	int y;
 	
-	i = 0;
-	if (ttr[0] == NULL)
-		return (1);
+// 	i = 0;
+// 	if (ttr[0] == NULL)
+// 		return (1);
+// 	y = 0;
+// 	while (y < size)
+// 	{
+// 		x = 0;
+// 		while (x < size)
+// 		{
+// 			//starts from right column and row to add each ttr
+// 			if (check_tetriminoe(map, x, y, ttrs[index]))
+// 			{
+// 				add_tetriminoe(map + y, x, ttrs[index]); 		 
+// 				if (solve_map(map, ttrs, size, index + 1))
+// 					return (1);
+// 				delete_ttr(map + y, x, ttrs[index]);
+// 			}
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	return (0);
+// }
+
+
+void	remove_ttr(char **map, char letter)
+{
+	int		size;
+	int		x;
+	int		y;
+
+	size = ft_strlen(map[0]);
 	y = 0;
 	while (y < size)
 	{
 		x = 0;
 		while (x < size)
 		{
-			//starts from right column and row to add each ttr
-			if (check_tetriminoe(map, x, y, ttrs[index]))
-			{
-				add_tetriminoe(map + y, x, ttrs[index]); 		 
-				if (solve_map(map, ttrs, size, index + 1))
-					return (1);
-				delete_ttr(map + y, x, ttrs[index]);
-			}
-			x++;
+			if (map[y][x] == letter)
+				map[y][x] = '.';
+			++x;
 		}
-		y++;
+		++y;
 	}
-	return (0);
 }
 
-void	populate_grid(char **grid, int size)
+// all content, such as '.', '\0' and NULL are added to the grid.
+char	**create_grid(int size)
 {
-	int	i;
-	int	j;
+	char 	**grid;
+	int		i;
+	int		j;
 
+	i = 0;
+	grid = (char **)malloc(sizeof(char*) * size + 1);
+	while (i < size)
+		grid[i++] = (char*)malloc(sizeof(char) * size + 1);
 	i = 0;
 	while (i < size)
 	{
@@ -59,20 +87,10 @@ void	populate_grid(char **grid, int size)
 		++i;
 	}
 	grid[i] = NULL;
-}
-
-char	**create_grid(int size)
-{
-	char 	**grid;
-	int		i;
-
-	i = 0;
-	grid = (char **)malloc(sizeof(char*) * size + 1);
-	while (i < size)
-		grid[i++] = (char*)malloc(sizeof(char) * size + 1);
 	return (grid);
 }
 
+// a single ttr is added to the grid
 int		add_tetriminoe(char **map, int x_map, int y_map, char *ttr)
 {
 	int		i;
@@ -88,6 +106,7 @@ int		add_tetriminoe(char **map, int x_map, int y_map, char *ttr)
 	return (1);
 }
 
+// a single ttr is checked against the grid.
 int		check_tetriminoe(char **map, int x_map, int y_map, char *ttr)
 {
 	int 	i;
@@ -107,6 +126,7 @@ int		check_tetriminoe(char **map, int x_map, int y_map, char *ttr)
 	return (0);
 }
 
+// all '#' are transformed into a letter according to their position in the file
 void	hash_to_letter(char **ttrs)
 {
 	int		y;
@@ -126,6 +146,8 @@ void	hash_to_letter(char **ttrs)
 	}
 }
 
+// ttrs[0] == 65, 0 3, 1 3, 2 3, 3 3  is transformed into
+// ttrs[0] == 65, 0 0, 1 0, 2 0, 3 0
 void	shorten_index(char **ttrs)
 {
 	int		y_low;
@@ -158,7 +180,10 @@ void	shorten_index(char **ttrs)
 	}
 }
 
-void	hash_locations(char **ttrs)
+// reassign ttrs lines (each ttrs[i] was ...#\n...#\n...#\n...#\n\0) into
+// x and y coordinates. the first value is the letter, following four pairs of x y.
+// the above example for letter 'A' would be ttrs[0] == 65, 0 3, 1 3, 2 3, 3 3
+void	hash_coordinates(char **ttrs)
 {
 	int y;
 	int x;
@@ -187,6 +212,7 @@ void	hash_locations(char **ttrs)
 	}
 }
 
+// check if valid tetrimino shape appears of ttrs file
 int		valid_ttr(char **ttrs)
 {
 	int y;
@@ -214,6 +240,7 @@ int		valid_ttr(char **ttrs)
 	return (1);
 }
 
+// check if valid newlines appear in ttrs file
 int 	newline_chk(char **ttrs)
 {
 	int y;
@@ -243,6 +270,7 @@ int 	newline_chk(char **ttrs)
 	return (1);
 }
 
+// check if valid characters appear in ttrs file
 int		char_chk(char **ttrs)
 {
 	int y;
@@ -266,7 +294,7 @@ int		char_chk(char **ttrs)
 	return (1);
 }
 
-void	delete_ttr(char **ttrs)
+void	free_ttr(char **ttrs)
 {
 	int		i;
 	
