@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/15 13:25:46 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/18 01:19:47 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/18 01:53:48 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int		main(int argc, char *argv[])
 	char 	**grid;
 	int 	i;
 	int		j;
+	int		k;
 	int		size;
+	char	**grid2;
 
 	size = 2;
 	i = 0;
@@ -65,8 +67,16 @@ int		main(int argc, char *argv[])
 			if (j % 2)
 				printf(",");
 		}
-		++i;
 		printf("\n");
+		printf("\n");
+		grid2 = create_grid(4);
+		add_tetriminoe(grid2, 0, 0, ttrs[i]);
+		k = 0;
+		while (grid2[k] != NULL)
+			printf("%s\n", grid2[k++]);
+		delete_grid(grid2, 4);
+		printf("\n");
+		++i;
 	}
 	printf("\n");
 

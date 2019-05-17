@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/15 13:35:04 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/18 01:19:44 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/18 01:56:34 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -473,4 +473,3 @@ int		read_file(char *argv[], char **ttrs)
 	close(fd);
 	return (i);
 }
-
