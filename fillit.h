@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:29:02 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/16 23:40:57 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/18 00:22:26 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ int		check_tetriminoe(char **map, int x_map, int y_map, char *ttr);
 int		add_tetriminoe(char **map, int x_map, int y_map, char *ttr);
 char	**create_grid(int size);
 void	remove_ttr(char **map, char letter);
+int		solve_map(char **map, char **ttrs, int index);
+void	delete_grid(char **grid, int size);
 
 #endif
