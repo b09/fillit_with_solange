@@ -6,7 +6,7 @@
 /*   By: bprado <bprado@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/07 20:29:02 by bprado         #+#    #+#                */
-/*   Updated: 2019/05/18 01:56:33 by bprado        ########   odam.nl         */
+/*   Updated: 2019/05/21 18:02:48 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 # include <unistd.h>
 # include <stdio.h>
 
-int     read_file(char *argv[], char **ttrs);
+int		read_file(char *argv[], char **ttrs);
 void	populate_buff(char *buff, char **ttr);
 void	delete_ttr(char **ttrs);
-int 	newline_chk(char **ttrs);
+int		newline_chk(char **ttrs);
 int		char_chk(char **ttrs);
 int		valid_ttr(char **ttrs);
 void	hash_coordinates(char **ttrs);
-void	shorten_index(char **ttrs);
+void	shorten_index(char **ttrs, int y, int x);
 void	hash_to_letter(char **ttrs);
 int		check_tetriminoe(char **map, int x_map, int y_map, char *ttr);
 int		add_tetriminoe(char **map, int x_map, int y_map, char *ttr);
